@@ -1,0 +1,43 @@
+{
+
+    "name": "r1tkill/api_test_php",
+    "type": "project",
+    "description": "API in PHP for tests and use in others programs",
+    "homepage": "https://github.com/R1TKILL/API_TEST_PHP",
+    "license": "MIT",
+    "authors": [{
+        "name": "Antonio Junior <R1TKILL in Github>",
+        "email": "antoniojunio402@gmail.com"
+    }],
+    "extra": {
+        "linkedin": "https://www.linkedin.com/in/antonio-junior-rodrigues-mota-8a568a173",
+        "github": "https://github.com/R1TKILL"
+    },
+    "require": {
+        "php": "8.2.12",
+        "slim/slim": "4.*",
+        "slim/psr7": "^1.7",
+        "doctrine/orm": "^3.2",
+        "doctrine/annotations": "^2.0",
+        "doctrine/dbal": "^4.1",
+        "doctrine/migrations": "^3.8",
+        "symfony/cache": "^7.1",
+        "vlucas/phpdotenv": "^5.6",
+        "php-di/php-di": "^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app",
+            "Migrations\\": "app/Configs/Database/Migrations",
+            "Controllers\\": "app/Controllers",
+            "Services\\": "app/Services",
+            "Tests\\": "app/Tests"
+        }
+    },
+    "scripts": {
+        "test": "echo \"No test specified\" && exit 0",
+        "dev": "php -S localhost:3000 index.php", 
+        "start": "echo \"No build command specified\" && exit 0"
+    }
+
+}
