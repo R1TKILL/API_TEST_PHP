@@ -94,6 +94,9 @@ class ComposerStaticInit2d68220ff6fe7ee0ef58a96351bf40d3
         ),
         'A' => 
         array (
+            'App\\IRepository\\' => 16,
+            'App\\DTO\\' => 8,
+            'App\\DAO\\' => 8,
             'App\\' => 4,
         ),
     );
@@ -268,6 +271,18 @@ class ComposerStaticInit2d68220ff6fe7ee0ef58a96351bf40d3
         'Controllers\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app/Controllers',
+        ),
+        'App\\IRepository\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/Interfaces/Repository',
+        ),
+        'App\\DTO\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/Configs/Database/DTO',
+        ),
+        'App\\DAO\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/Configs/Database/DAO',
         ),
         'App\\' => 
         array (

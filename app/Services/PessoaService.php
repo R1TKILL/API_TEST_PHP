@@ -3,59 +3,65 @@
 declare(strict_types=1);
 namespace App\Services;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\DBAL\Exception as DBALException;
-use App\Models\Pessoa;
+use App\DAO\PessoaDAO;
+use App\DTO\PessoaDTO;
 use Exception;
 
-class PessoaService
-{
+class PessoaService {
 
     // * Atributes:
-    private EntityManager $entityManager;
-    private Pessoa $pessoaModel;
+    private PessoaDAO $pessoaDAO;
+    private PessoaDTO $pessoaDTO;
 
 
     // * Constructor:
-    public function __construct(Pessoa $pessoaModel, EntityManager $entityManager) {
-        $this->pessoaModel = $pessoaModel;
-        $this->entityManager = $entityManager;
+    public function __construct(PessoaDAO $pessoaDAO, PessoaDTO $pessoaDTO) {
+        $this->pessoaDAO = $pessoaDAO;
+        $this->pessoaDTO = $pessoaDTO;
     }
 
 
     // * Methods:
-    public function getAll(): array | bool | null {
+    public function getAll(): array | bool {
+
         try {
 
-            $pessoas = $this->entityManager->getRepository($this->pessoaModel::class)->findAll();
+            $pessoas = $this->pessoaDAO->load();
             $pessoaObject = [];
 
-            foreach ($pessoas as $this->pessoaModel) {
+            if(!$pessoas) {
+                return false;
+            }
+
+            foreach ($pessoas as $pessoa) {
                 $pessoaObject[] = [
-                    "id" => $this->pessoaModel->getId(),
-                    "name" => $this->pessoaModel->getName(),
-                    "age" => $this->pessoaModel->getAge(),
-                    "email" => $this->pessoaModel->getEmail(),
-                    "cell" => $this->pessoaModel->getCell()
+                    "id" => $pessoa->getId(),
+                    "name" => $pessoa->getName(),
+                    "age" => $pessoa->getAge(),
+                    "email" => $pessoa->getEmail(),
+                    "cell" => $pessoa->getCell()
                 ];
             }
 
             return $pessoaObject;
 
-        } catch (DBALException $e) {
-            echo('ORM error: ' . $e->getMessage());
-            return false;
         } catch (Exception $e) {
-            echo('general error: ' . $e->getMessage());
+            echo('Error in PessoaService->getAll, type error: ' . $e->getMessage());
             return false;
         }
+
     }
 
 
     public function getById(int $id): array | bool | null {
+
         try {
 
-            $pessoaByID = $this->entityManager->find($this->pessoaModel::class, $id); 
+            $pessoaByID = $this->pessoaDAO->loadById($id);
+
+            if(!$pessoaByID) {
+                return false;
+            }
             
             $pessoaObjectByID = [
                 "id" => $pessoaByID->getId(),
@@ -67,78 +73,59 @@ class PessoaService
 
             return $pessoaObjectByID;
 
-        } catch (DBALException $e) {
-            echo('ORM error: ' . $e->getMessage());
-            return false;
         } catch (Exception $e) {
-            echo('general error: ' . $e->getMessage());
+            echo('Error in PessoaService->getById, type error: ' . $e->getMessage());
             return false;
         }
+
     }
 
 
     public function create(array $data): bool {
-        try {
-            $this->pessoaModel->setName($data['name']);
-            $this->pessoaModel->setAge($data['age']);
-            $this->pessoaModel->setEmail($data['email']);
-            $this->pessoaModel->setCell($data['cell']);
 
-            $this->entityManager->persist($this->pessoaModel);
-            $this->entityManager->flush();
+        try {
+
+            $this->pessoaDTO->name = $data['name'];
+            $this->pessoaDTO->age = $data['age'];
+            $this->pessoaDTO->email = $data['email'];
+            $this->pessoaDTO->cell = $data['cell'];
+
+            $this->pessoaDAO->save($this->pessoaDTO);
             return true;
-        } catch (DBALException $e) {
-            echo('ORM error: ' . $e->getMessage());
-            return false;
+
         } catch (Exception $e) {
-            echo('general error: ' . $e->getMessage());
+            echo('Error in PessoaService->create, type error: ' . $e->getMessage());
             return false;
         }
+
     }
 
 
     public function update(int $id, array $data): bool {
+
         try {
-            $pessoa = $this->entityManager->getRepository($this->pessoaModel::class)->find($id);
 
-            if (!$pessoa or $pessoa == null) {
-                return false;
-            }
+            return $this->pessoaDAO->update($id, $data);
 
-            $pessoa->setName($data['name']);
-            $pessoa->setAge($data['age']);
-            $pessoa->setEmail($data['email']);
-            $pessoa->setCell($data['cell']);
+        } catch (Exception $e) {
+            echo('Error in PessoaService->update, type error: ' . $e->getMessage());
+            return false;
+        }
+
+    }
+
+
+    public function delete($id): bool {
+
+        try {
             
-            $this->entityManager->flush();
-            return true;
-        } catch (DBALException $e) {
-            echo('ORM error: ' . $e->getMessage());
-            return false;
+            return $this->pessoaDAO->delete($id);
+
         } catch (Exception $e) {
-            echo('general error: ' . $e->getMessage());
+            echo('Error in PessoaService->delete, type error: ' . $e->getMessage());
             return false;
         }
+
     }
 
-
-    public function delete($id) {
-        try {
-            $pessoa = $this->entityManager->getRepository($this->pessoaModel::class)->find($id);
-
-            if(!$pessoa or $pessoa == null) {
-                return false;
-            }
-
-            $this->entityManager->remove($pessoa);
-            $this->entityManager->flush();
-            return true;
-        } catch (DBALException $e) {
-            echo('ORM error: ' . $e->getMessage());
-            return false;
-        } catch (Exception $e) {
-            echo('general error: ' . $e->getMessage());
-            return false;
-        }
-    }
 }

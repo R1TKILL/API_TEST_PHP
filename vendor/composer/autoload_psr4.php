@@ -48,5 +48,8 @@ return array(
     'Doctrine\\Common\\' => array($vendorDir . '/doctrine/event-manager/src'),
     'DI\\' => array($vendorDir . '/php-di/php-di/src'),
     'Controllers\\' => array($baseDir . '/app/Controllers'),
+    'App\\IRepository\\' => array($baseDir . '/app/Interfaces/Repository'),
+    'App\\DTO\\' => array($baseDir . '/app/Configs/Database/DTO'),
+    'App\\DAO\\' => array($baseDir . '/app/Configs/Database/DAO'),
     'App\\' => array($baseDir . '/app'),
 );
