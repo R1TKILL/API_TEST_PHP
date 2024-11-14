@@ -28,6 +28,7 @@ if ($modeApplication == 'test') {
         'DB_HOST' => $_ENV['TEST_DB_HOST'],
         'DB_PORT' => $_ENV['TEST_DB_PORT'],
         'SMTP_HOST' => $_ENV['SMTP_HOST'],
+        'SMTP_DEV_TEAM' => $_ENV['SMTP_DEV_TEAM'],
         'SMTP_SENDER' => $_ENV['SMTP_SENDER'],
         'SMTP_PASS' => $_ENV['SMTP_PASS'],
         'SMTP_PORT' => $_ENV['SMTP_PORT']
@@ -46,6 +47,7 @@ if ($modeApplication == 'test') {
         'DB_HOST' => $_ENV['DEV_DB_HOST'],
         'DB_PORT' => $_ENV['DEV_DB_PORT'],
         'SMTP_HOST' => $_ENV['SMTP_HOST'],
+        'SMTP_DEV_TEAM' => $_ENV['SMTP_DEV_TEAM'],
         'SMTP_SENDER' => $_ENV['SMTP_SENDER'],
         'SMTP_PASS' => $_ENV['SMTP_PASS'],
         'SMTP_PORT' => $_ENV['SMTP_PORT']
@@ -64,6 +66,7 @@ if ($modeApplication == 'test') {
         'DB_HOST' => $_ENV['PROD_DB_HOST'],
         'DB_PORT' => $_ENV['PROD_DB_PORT'],
         'SMTP_HOST' => $_ENV['SMTP_HOST'],
+        'SMTP_DEV_TEAM' => $_ENV['SMTP_DEV_TEAM'],
         'SMTP_SENDER' => $_ENV['SMTP_SENDER'],
         'SMTP_PASS' => $_ENV['SMTP_PASS'],
         'SMTP_PORT' => $_ENV['SMTP_PORT']

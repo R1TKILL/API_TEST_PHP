@@ -1,0 +1,3 @@
+[2024-11-14T16:56:03.954788+00:00] app.INFO: 🚀 API started with success, running on port 3000 | File: C:\Users\R1TKILL\Documents\vscProjects\Php\API_Test_PHP\index.php | Line: 25 [] []
+[2024-11-14T16:56:54.977180+00:00] app.CRITICAL: 🚀 API started with success, running on port 3000 | File: C:\Users\R1TKILL\Documents\vscProjects\Php\API_Test_PHP\index.php | Line: 25 [] []
+[2024-11-14T16:57:02.059058+00:00] app.INFO: Email service worked successfully. | File: C:\Users\R1TKILL\Documents\vscProjects\Php\API_Test_PHP\app\Configs\Smtp\SendEmail.php | Line: 53 [] []

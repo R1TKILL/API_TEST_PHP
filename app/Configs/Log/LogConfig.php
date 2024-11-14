@@ -2,6 +2,8 @@
 
 namespace App\configLogs;
 
+require './app/Configs/Env/env.php';
+
 use Monolog\Logger;
 use Monolog\Handler\RotatingFileHandler;
 use App\SMTP\SendEmail;
@@ -29,6 +31,8 @@ class LogConfig {
     // * Methods:
     public function alertDevTeam(string $type, string $message, string $error_line, string $date_time, string $detailedMessage): void {
 
+        global $dict_ENV;
+
         try {
 
             match ($type) {
@@ -45,7 +49,7 @@ class LogConfig {
                 $body_email
             );
     
-            $this->email->send_email('antoniojunio402@gmail.com', 'Alerta da API PHP', $body_email);
+            $this->email->send_email($dict_ENV['SMTP_DEV_TEAM'], 'Alerta da API PHP', $body_email);
 
         } catch (Exception $ex) {
             $this->appLogMsg('ERROR', $ex->getMessage());
