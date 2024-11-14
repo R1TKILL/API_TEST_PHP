@@ -23,24 +23,30 @@
         "doctrine/migrations": "^3.8",
         "symfony/cache": "^7.1",
         "vlucas/phpdotenv": "^5.6",
-        "php-di/php-di": "^7.0"
+        "php-di/php-di": "^7.0",
+        "monolog/monolog": "^3.7",
+        "phpmailer/phpmailer": "^6.9"
     },
     "autoload": {
         "psr-4": {
             "App\\": "app/",
-            "Migrations\\": "app/Configs/Database/Migrations",
-            "Controllers\\": "app/Controllers",
-            "Services\\": "app/Services",
-            "Tests\\": "app/Tests",
+            "App\\Migrations\\": "app/Configs/Database/Migrations",
+            "App\\Controllers\\": "app/Controllers",
+            "App\\Services\\": "app/Services",
+            "App\\Tests\\": "app/Tests",
             "App\\DAO\\": "app/Configs/Database/DAO",
             "App\\DTO\\": "app/Configs/Database/DTO",
-            "App\\IRepository\\": "app/Interfaces/Repository"
+            "App\\IRepository\\": "app/Interfaces/Repository",
+            "App\\Database\\": "app/Configs/Database/Connection",
+            "App\\ContainersDI\\": "app/Configs/Containers",
+            "App\\configLogs\\": "app/Configs/Log",
+            "App\\SMTP\\": "app/Configs/Smtp"
         }
     },
     "scripts": {
-        "test": "echo \"No test specified\" && exit 0",
+        "test": "echo \"No test command specified\" && exit 0",
         "dev": "php -S localhost:3000 index.php",
-        "start": "echo \"No build command specified\" && exit 0"
+        "build": "echo \"No build command specified\" && exit 0"
     }
 
 }

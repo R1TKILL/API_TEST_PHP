@@ -20,10 +20,6 @@ class ComposerStaticInit2d68220ff6fe7ee0ef58a96351bf40d3
     );
 
     public static $prefixLengthsPsr4 = array (
-        'T' => 
-        array (
-            'Tests\\' => 6,
-        ),
         'S' => 
         array (
             'Symfony\\Polyfill\\Php80\\' => 23,
@@ -40,7 +36,6 @@ class ComposerStaticInit2d68220ff6fe7ee0ef58a96351bf40d3
             'Symfony\\Component\\Cache\\' => 24,
             'Slim\\Psr7\\' => 10,
             'Slim\\' => 5,
-            'Services\\' => 9,
         ),
         'P' => 
         array (
@@ -50,10 +45,11 @@ class ComposerStaticInit2d68220ff6fe7ee0ef58a96351bf40d3
             'Psr\\Container\\' => 14,
             'Psr\\Cache\\' => 10,
             'PhpOption\\' => 10,
+            'PHPMailer\\PHPMailer\\' => 20,
         ),
         'M' => 
         array (
-            'Migrations\\' => 11,
+            'Monolog\\' => 8,
         ),
         'L' => 
         array (
@@ -88,24 +84,24 @@ class ComposerStaticInit2d68220ff6fe7ee0ef58a96351bf40d3
             'Doctrine\\Common\\' => 16,
             'DI\\' => 3,
         ),
-        'C' => 
-        array (
-            'Controllers\\' => 12,
-        ),
         'A' => 
         array (
+            'App\\configLogs\\' => 15,
+            'App\\Tests\\' => 10,
+            'App\\Services\\' => 13,
+            'App\\SMTP\\' => 9,
+            'App\\Migrations\\' => 15,
             'App\\IRepository\\' => 16,
+            'App\\Database\\' => 13,
             'App\\DTO\\' => 8,
             'App\\DAO\\' => 8,
+            'App\\Controllers\\' => 16,
+            'App\\ContainersDI\\' => 17,
             'App\\' => 4,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Tests\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/app/Tests',
-        ),
         'Symfony\\Polyfill\\Php80\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-php80',
@@ -162,10 +158,6 @@ class ComposerStaticInit2d68220ff6fe7ee0ef58a96351bf40d3
         array (
             0 => __DIR__ . '/..' . '/slim/slim/Slim',
         ),
-        'Services\\' => 
-        array (
-            0 => __DIR__ . '/../..' . '/app/Services',
-        ),
         'Psr\\Log\\' => 
         array (
             0 => __DIR__ . '/..' . '/psr/log/src',
@@ -192,9 +184,13 @@ class ComposerStaticInit2d68220ff6fe7ee0ef58a96351bf40d3
         array (
             0 => __DIR__ . '/..' . '/phpoption/phpoption/src/PhpOption',
         ),
-        'Migrations\\' => 
+        'PHPMailer\\PHPMailer\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/app/Configs/Database/Migrations',
+            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
+        ),
+        'Monolog\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
         ),
         'Laravel\\SerializableClosure\\' => 
         array (
@@ -268,13 +264,33 @@ class ComposerStaticInit2d68220ff6fe7ee0ef58a96351bf40d3
         array (
             0 => __DIR__ . '/..' . '/php-di/php-di/src',
         ),
-        'Controllers\\' => 
+        'App\\configLogs\\' => 
         array (
-            0 => __DIR__ . '/../..' . '/app/Controllers',
+            0 => __DIR__ . '/../..' . '/app/Configs/Log',
+        ),
+        'App\\Tests\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/Tests',
+        ),
+        'App\\Services\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/Services',
+        ),
+        'App\\SMTP\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/Configs/Smtp',
+        ),
+        'App\\Migrations\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/Configs/Database/Migrations',
         ),
         'App\\IRepository\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app/Interfaces/Repository',
+        ),
+        'App\\Database\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/Configs/Database/Connection',
         ),
         'App\\DTO\\' => 
         array (
@@ -283,6 +299,14 @@ class ComposerStaticInit2d68220ff6fe7ee0ef58a96351bf40d3
         'App\\DAO\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app/Configs/Database/DAO',
+        ),
+        'App\\Controllers\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/Controllers',
+        ),
+        'App\\ContainersDI\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/Configs/Containers',
         ),
         'App\\' => 
         array (

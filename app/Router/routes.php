@@ -1,18 +1,21 @@
 <?php
 
 require './app/Configs/Env/env.php';
-require 'app/Configs/Containers/containers.php';
 
+use App\ContainersDI\Containers;
+
+$ctns = new Containers();
+$ctns->setContainers();
 $apiPrefix = (string) $dict_ENV['PREFIX_API'] ?: '/api';
 
-return function ($app) use ($apiPrefix, $container) {
+return function ($app) use ($apiPrefix, $ctns) {
     
-    $app->group($apiPrefix, function ($app) use ($container) {
-        $app->get('/pessoa/items', [$container->get('PessoaController'), 'getAll']);
-        $app->get('/pessoa/items/{id}', [$container->get('PessoaController'), 'getById']);
-        $app->post('/pessoa/items', [$container->get('PessoaController'), 'create']);
-        $app->put('/pessoa/items/{id}', [$container->get('PessoaController'), 'update']);
-        $app->delete('/pessoa/items/{id}', [$container->get('PessoaController'), 'delete']);
+    $app->group($apiPrefix, function ($app) use ($ctns) {
+        $app->get('/pessoa/items', [$ctns->getContainer()->get('PessoaController'), 'getAll']);
+        $app->get('/pessoa/items/{id}', [$ctns->getContainer()->get('PessoaController'), 'getById']);
+        $app->post('/pessoa/items', [$ctns->getContainer()->get('PessoaController'), 'create']);
+        $app->put('/pessoa/items/{id}', [$ctns->getContainer()->get('PessoaController'), 'update']);
+        $app->delete('/pessoa/items/{id}', [$ctns->getContainer()->get('PessoaController'), 'delete']);
     });
 
     // ? Add the others groups if necessary, ex: admin and others.

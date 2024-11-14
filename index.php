@@ -1,20 +1,30 @@
 <?php
 
 require 'vendor/autoload.php';
-require 'app/Configs/Env/env.php';
+require './app/Configs/Env/env.php';
 
 use Slim\Factory\AppFactory;
+use App\configLogs\LogConfig;
 
-$app = AppFactory::create();
-$app->addBodyParsingMiddleware();
-$app->addRoutingMiddleware();
-$app->addErrorMiddleware(true, true, true);
+$logger = new LogConfig();
 
-// * Add the middlewares in API.
-$middlewares = require './app/Middlewares/middlewares.php';
-$middlewares($app);
-// * Add the routes in API.
-$routes = require './app/Router/routes.php';
-$routes($app);
+try {
 
-$app->run();
+    $app = AppFactory::create();
+    $app->addBodyParsingMiddleware();
+    $app->addRoutingMiddleware();
+    $app->addErrorMiddleware(true, true, true);
+
+    // * Add the middlewares in API.
+    $middlewares = require './app/Middlewares/middlewares.php';
+    $middlewares($app);
+    // * Add the routes in API.
+    $routes = require './app/Router/routes.php';
+    $routes($app);
+
+    $logger->appLogMsg('INFO', "🚀 API started with success, running on port " . (string) $dict_ENV['PORT']);
+    $app->run();
+
+} catch(Exception $ex) {
+    $logger->appLogMsg('CRITICAL', $ex->getMessage());
+}

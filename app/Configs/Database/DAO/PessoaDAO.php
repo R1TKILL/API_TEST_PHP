@@ -4,13 +4,13 @@ declare(strict_types=1);
 namespace App\DAO;
 
 use Doctrine\DBAL\Exception as DBALException;
-use App\IRepository\IPessoaRepository;
+use App\IRepository\IEntityRepository;
 use Doctrine\ORM\EntityManager;
 use App\Models\Pessoa;
 use App\DTO\PessoaDTO;
 use Exception;
 
-class PessoaDAO implements IPessoaRepository {
+class PessoaDAO implements IEntityRepository {
 
     // * Atributes:
     private EntityManager $entityManager;
@@ -72,7 +72,11 @@ class PessoaDAO implements IPessoaRepository {
     }
 
 
-    public function save(PessoaDTO $pessoaDTO) {
+    public function save(object $pessoaDTO) {
+
+        if (!$pessoaDTO instanceof PessoaDTO) {
+            throw new \InvalidArgumentException("Expected an instance of PessoaDTO.");
+        }
 
         try {
 
@@ -142,7 +146,6 @@ class PessoaDAO implements IPessoaRepository {
             $this->entityManager->beginTransaction();
             $this->entityManager->remove($pessoa);
             $this->entityManager->flush();
-            $this->entityManager->commit();
             return true;
 
         } catch(Exception $e) {

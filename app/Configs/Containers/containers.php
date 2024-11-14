@@ -1,7 +1,8 @@
 <?php
 
 declare(strict_types=1);
-require './app/Configs/Database/Connection/connection.php';
+
+namespace App\ContainersDI;
 
 use DI\Container;
 use App\Models\Pessoa;
@@ -9,33 +10,60 @@ use App\Services\PessoaService;
 use App\Controllers\PessoaController;
 use App\DAO\PessoaDAO;
 use App\DTO\PessoaDTO;
+use App\Database\DatabaseConnection;
 
-$container = new Container();
+class Containers {
 
-// * Registering PessoaModel
-$container->set('Pessoa', function() {
-    return new Pessoa();
-});
+    private Container $container;
 
-
-// * Registering PessoaDAO, injecting PessoaModel and EntityManager.
-$container->set('PessoaDAO', function($container) use ($entityManager) {
-    return new PessoaDAO($container->get('Pessoa'), $entityManager);
-});
-
-// * Registering PessoaDTO.
-$container->set('PessoaDTO', function() {
-    return new PessoaDTO();
-});
+    public function __construct() {
+        $this->container = new Container();
+    }
 
 
-// * Registering PessoaService, injecting PessoaDAO and PessoaDTO.
-$container->set('PessoaService', function($container) {
-    return new PessoaService($container->get('PessoaDAO'), $container->get('PessoaDTO'));
-});
+    public function setContainers(): void {
+        
+        // * Registering PessoaModel
+        $this->container->set('Pessoa', function() {
+            return new Pessoa();
+        });
 
 
-// * Registering PessoaController, injecting PessoaService.
-$container->set('PessoaController', function($container) {
-    return new PessoaController($container->get('PessoaService'));
-});
+        // * Registering DatabaseConnection
+        $this->container->set('DatabaseConnection', function() {
+            $dc = new DatabaseConnection();
+            return $dc->getConnection();
+        });
+
+
+        // * Registering PessoaDAO, injecting PessoaModel and EntityManager.
+        $this->container->set('PessoaDAO', function($container) {
+            return new PessoaDAO($container->get('Pessoa'), $container->get('DatabaseConnection'));
+        });
+
+
+        // * Registering PessoaDTO.
+        $this->container->set('PessoaDTO', function() {
+            return new PessoaDTO();
+        });
+
+
+        // * Registering PessoaService, injecting PessoaDAO and PessoaDTO.
+        $this->container->set('PessoaService', function($container) {
+            return new PessoaService($container->get('PessoaDAO'), $container->get('PessoaDTO'));
+        });
+
+
+        // * Registering PessoaController, injecting PessoaService.
+        $this->container->set('PessoaController', function($container) {
+            return new PessoaController($container->get('PessoaService'));
+        });
+
+    }
+
+
+    public function getContainer(): Container {
+        return $this->container;
+    }
+
+}
