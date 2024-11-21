@@ -2,7 +2,6 @@
 
 require './app/Configs/Env/env.php';
 
-use Exception;
 use App\configLogs\LogConfig;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;

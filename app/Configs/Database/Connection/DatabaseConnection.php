@@ -33,13 +33,15 @@ class DatabaseConnection {
        
             // * Keys for Database:
             $this->dbParams = array(
-                'driver'   => (string) $dict_ENV['DB_DIALECT'],
-                'user'     => (string) $dict_ENV['DB_USER'],
-                'password' => (string) $dict_ENV['DB_PASS'],
-                'dbname'   => (string) $dict_ENV['DB_NAME'],
-                'host'     => (string) $dict_ENV['DB_HOST'],   
-                'port'     => (string) $dict_ENV['DB_PORT'],              
-                'charset'  => 'utf8mb4',          
+                'driver'      => (string) $dict_ENV['DB_DIALECT'],
+                'user'        => (string) $dict_ENV['DB_USER'],
+                'password'    => (string) $dict_ENV['DB_PASS'],
+                'dbname'      => (string) $dict_ENV['DB_NAME'],
+                'host'        => (string) $dict_ENV['DB_HOST'],   
+                'port'        => (string) $dict_ENV['DB_PORT'],              
+                'sslmode'     => (string) $dict_ENV['DB_SSLMODE'], // * Options: disable, allow, prefer, require, verify-ca, verify-full
+                'sslrootcert' => (string) $dict_ENV['DB_SSLROOTCERT'], // * ssl_ca path, require for verify-ca or verify-full
+                'charset'     => 'utf8mb4',
                 'driverOptions' => [
                     \PDO::ATTR_TIMEOUT => 5 // * Timeout for connection (in seconds)
                 ]

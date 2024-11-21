@@ -4,7 +4,6 @@ require './app/Configs/Env/env.php';
 
 use App\ContainersDI\Containers;
 use App\configLogs\LogConfig;
-use Exception;
 
 $apiPrefix = (string) $dict_ENV['PREFIX_API'] ?: '/api';
 $logger = new LogConfig();

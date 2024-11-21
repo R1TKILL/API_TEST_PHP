@@ -50,7 +50,7 @@
             "vendor/bin/doctrine-migrations migrate || vendor/bin/doctrine-migrations migrate 20240920165939"
         ],
         "test": "echo \"No test command specified\" && exit 0",
-        "dev": "php -S localhost:3000 index.php",
+        "dev": "php start.php",
         "build": "echo \"No build command specified\" && exit 0"
     }
 
