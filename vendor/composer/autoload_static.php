@@ -97,6 +97,7 @@ class ComposerStaticInit2d68220ff6fe7ee0ef58a96351bf40d3
             'App\\DAO\\' => 8,
             'App\\Controllers\\' => 16,
             'App\\ContainersDI\\' => 17,
+            'App\\Auto\\' => 9,
             'App\\' => 4,
         ),
     );
@@ -307,6 +308,10 @@ class ComposerStaticInit2d68220ff6fe7ee0ef58a96351bf40d3
         'App\\ContainersDI\\' => 
         array (
             0 => __DIR__ . '/../..' . '/app/Configs/Containers',
+        ),
+        'App\\Auto\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/app/Configs/Auto',
         ),
         'App\\' => 
         array (

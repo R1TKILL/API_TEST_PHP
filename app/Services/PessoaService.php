@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace App\Services;
 
+use App\configLogs\LogConfig;
 use App\DAO\PessoaDAO;
 use App\DTO\PessoaDTO;
 use Exception;
@@ -12,21 +13,23 @@ class PessoaService {
     // * Atributes:
     private PessoaDAO $pessoaDAO;
     private PessoaDTO $pessoaDTO;
+    private LogConfig $logger;
 
 
     // * Constructor:
     public function __construct(PessoaDAO $pessoaDAO, PessoaDTO $pessoaDTO) {
         $this->pessoaDAO = $pessoaDAO;
         $this->pessoaDTO = $pessoaDTO;
+        $this->logger = new LogConfig();
     }
 
 
     // * Methods:
-    public function getAll(): array | bool {
+    public function getAll(int $page = 1, int $pageSize = 5): array | bool {
 
         try {
 
-            $pessoas = $this->pessoaDAO->load();
+            $pessoas = $this->pessoaDAO->load($page, $pageSize);
             $pessoaObject = [];
 
             if(!$pessoas) {
@@ -45,8 +48,8 @@ class PessoaService {
 
             return $pessoaObject;
 
-        } catch (Exception $e) {
-            echo('Error in PessoaService->getAll, type error: ' . $e->getMessage());
+        } catch (Exception $ex) {
+            $this->logger->appLogMsg('ERROR', 'Error in PessoaService->getAll, type error: ' . $ex->getMessage());
             return false;
         }
 
@@ -73,8 +76,8 @@ class PessoaService {
 
             return $pessoaObjectByID;
 
-        } catch (Exception $e) {
-            echo('Error in PessoaService->getById, type error: ' . $e->getMessage());
+        } catch (Exception $ex) {
+            $this->logger->appLogMsg('ERROR', 'Error in PessoaService->getById, type error: ' . $ex->getMessage());
             return false;
         }
 
@@ -93,8 +96,8 @@ class PessoaService {
             $this->pessoaDAO->save($this->pessoaDTO);
             return true;
 
-        } catch (Exception $e) {
-            echo('Error in PessoaService->create, type error: ' . $e->getMessage());
+        } catch (Exception $ex) {
+            $this->logger->appLogMsg('ERROR', 'Error in PessoaService->create, type error: ' . $ex->getMessage());
             return false;
         }
 
@@ -107,8 +110,8 @@ class PessoaService {
 
             return $this->pessoaDAO->update($id, $data);
 
-        } catch (Exception $e) {
-            echo('Error in PessoaService->update, type error: ' . $e->getMessage());
+        } catch (Exception $ex) {
+            $this->logger->appLogMsg('ERROR', 'Error in PessoaService->update, type error: ' . $ex->getMessage());
             return false;
         }
 
@@ -121,8 +124,8 @@ class PessoaService {
             
             return $this->pessoaDAO->delete($id);
 
-        } catch (Exception $e) {
-            echo('Error in PessoaService->delete, type error: ' . $e->getMessage());
+        } catch (Exception $ex) {
+            $this->logger->appLogMsg('ERROR', 'Error in PessoaService->delete, type error: ' . $ex->getMessage());
             return false;
         }
 

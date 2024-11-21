@@ -1,5 +1,10 @@
 <?php
 
+use App\ContainersDI\Containers;
+
+$ctns = new Containers();
+$ctns->setContainers();
+
 return [
     'table_storage' => [
         'table_name' => 'doctrine_migration_versions',
@@ -15,4 +20,6 @@ return [
 
     'all_or_nothing' => true,
     'check_database_platform' => true,
+
+    'connection' => $ctns->getContainer()->get('DatabaseConnection')
 ];

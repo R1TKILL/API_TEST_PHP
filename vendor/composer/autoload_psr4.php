@@ -57,5 +57,6 @@ return array(
     'App\\DAO\\' => array($baseDir . '/app/Configs/Database/DAO'),
     'App\\Controllers\\' => array($baseDir . '/app/Controllers'),
     'App\\ContainersDI\\' => array($baseDir . '/app/Configs/Containers'),
+    'App\\Auto\\' => array($baseDir . '/app/Configs/Auto'),
     'App\\' => array($baseDir . '/app'),
 );

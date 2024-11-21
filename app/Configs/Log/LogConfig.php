@@ -19,10 +19,13 @@ class LogConfig {
     // * Construct:
     public function __construct() {
 
+        global $dict_ENV;
         $this->email = new SendEmail();
         $this->logger = new Logger('app');
         $this->logger->pushHandler(
-            new RotatingFileHandler(__DIR__ . "/../../../app/Logs/app.log", 180, $this->logger::DEBUG),
+            ($dict_ENV['ENV_MODE'] == 'production') 
+                ? new RotatingFileHandler(__DIR__ . "/../../../app/Logs/app.log", 180, $this->logger::ERROR) 
+                : new RotatingFileHandler(__DIR__ . "/../../../app/Logs/app.log", 180, $this->logger::DEBUG)
         );
 
     }

@@ -6,17 +6,20 @@ namespace App\Controllers;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use App\Services\PessoaService; // ? pode ser mudado por um PessoaServiceRepository - classe, não interface.
+use App\configLogs\LogConfig;
 use Exception;
 
 class PessoaController {
 
     // * Atributes:
     private PessoaService $pessoaService;
+    private LogConfig $logger;
 
 
     // * Constructor:
     public function __construct(PessoaService $pessoaService) {
         $this->pessoaService = $pessoaService;
+        $this->logger = new LogConfig();
     }
 
 
@@ -25,7 +28,11 @@ class PessoaController {
 
         try {
 
-            $pessoas = $this->pessoaService->getAll();
+            $queryParams = $request->getQueryParams();
+            $page = isset($queryParams['page']) ? (int)$queryParams['page'] : 1;
+            $pageSize = isset($queryParams['pageSize']) ? (int)$queryParams['pageSize'] : 5;
+
+            $pessoas = $this->pessoaService->getAll($page, $pageSize);
     
             if(!$pessoas or $pessoas == null) {
                 return $response->withStatus(404, 'Error when trying to list to dates of database');
@@ -35,8 +42,8 @@ class PessoaController {
             $response->withHeader('Content-Type', 'application/json');
             return $response;
 
-        } catch(Exception $e) {
-            echo('Error in PessoaController->getAll, type error: ' . $e->getMessage());
+        } catch(Exception $ex) {
+            $this->logger->appLogMsg('ERROR', 'Error in PessoaController->getAll, type error: ' . $ex->getMessage());
         }
         
     }
@@ -56,8 +63,8 @@ class PessoaController {
             $response->getBody()->write(json_encode($pessoa));
             return $response->withHeader('Content-Type', 'application/json');
 
-        } catch(Exception $e) {
-            echo('Error in PessoaController->getById, type error: ' . $e->getMessage());
+        } catch(Exception $ex) {
+            $this->logger->appLogMsg('ERROR', 'Error in PessoaController->getById, type error: ' . $ex->getMessage());
         }
 
     }
@@ -78,8 +85,8 @@ class PessoaController {
 
             return $response;
 
-        } catch(Exception $e) {
-            echo('Error in PessoaController->create, type error: ' . $e->getMessage());
+        } catch(Exception $ex) {
+            $this->logger->appLogMsg('ERROR', 'Error in PessoaController->create, type error: ' . $ex->getMessage());
         }
 
     }
@@ -103,8 +110,8 @@ class PessoaController {
 
             return $response;
 
-        } catch(Exception $e) {
-            echo('Error in PessoaController->update, type error: ' . $e->getMessage());
+        } catch(Exception $ex) {
+            $this->logger->appLogMsg('ERROR', 'Error in PessoaController->update, type error: ' . $ex->getMessage());
         }
 
     }
@@ -123,8 +130,8 @@ class PessoaController {
 
             return $response->withStatus(200, 'Removed successfully');
 
-        } catch(Exception $e) {
-            echo('Error in PessoaController->delete, type error: ' . $e->getMessage());
+        } catch(Exception $ex) {
+            $this->logger->appLogMsg('ERROR', 'Error in PessoaController->delete, type error: ' . $ex->getMessage());
         }
 
     }

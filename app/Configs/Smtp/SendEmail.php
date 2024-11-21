@@ -35,7 +35,7 @@ class SendEmail {
             $this->mail->Host = (string) $dict_ENV['SMTP_HOST'];
             $this->mail->SMTPAuth = true;
             $this->mail->Username = (string) $dict_ENV['SMTP_SENDER'];
-            $this->mail->Password = (string) $dict_ENV['SMTP_PASS'];
+            $this->mail->Password = (string) $dict_ENV['SMTP_PASS']; // * The pass for low security app.
             $this->mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $this->mail->Port = (int) $dict_ENV['SMTP_PORT'];
     

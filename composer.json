@@ -40,10 +40,15 @@
             "App\\Database\\": "app/Configs/Database/Connection",
             "App\\ContainersDI\\": "app/Configs/Containers",
             "App\\configLogs\\": "app/Configs/Log",
-            "App\\SMTP\\": "app/Configs/Smtp"
+            "App\\SMTP\\": "app/Configs/Smtp",
+            "App\\Auto\\": "app/Configs/Auto"
         }
     },
     "scripts": {
+        "base": [
+            "rm -rf vendor/", "rm -rf composer.lock", "cp .env.example .env", "composer install",
+            "vendor/bin/doctrine-migrations migrate || vendor/bin/doctrine-migrations migrate 20240920165939"
+        ],
         "test": "echo \"No test command specified\" && exit 0",
         "dev": "php -S localhost:3000 index.php",
         "build": "echo \"No build command specified\" && exit 0"

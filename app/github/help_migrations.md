@@ -1,10 +1,12 @@
 ## Commands for use in migrations, run the command in bash in root folder of project.
 
+### in case of file migration.php in root folder, contains other name, insert the param: --configuration=name_file.php 
+
 * generate migration:
 
 ```bash 
     
-    $ vendor/bin/doctrine-migrations generate --configuration=migrations-config.php    
+    $ vendor/bin/doctrine-migrations generate    
 
 ```
 
@@ -12,7 +14,7 @@
 
 ```bash 
     
-    $ vendor/bin/doctrine-migrations status --configuration=migrations-config.php --db-configuration=app/Configs/Database/Connection connection.php   
+    $ vendor/bin/doctrine-migrations status  
 
 ```
 
@@ -20,15 +22,15 @@
 
 ```bash 
     
-    $ vendor/bin/doctrine-migrations migrate --configuration=migrations-config.php   
+    $ vendor/bin/doctrine-migrations migrate  
 
 ```
 
-* migrate:
+* In the next migrates:
 
 ```bash 
     
-    $ vendor/bin/doctrine-migrations migrate <version> --configuration=migrations-config.php --db-configuration=app/Configs/Database/Connection/connection.php    
+    $ vendor/bin/doctrine-migrations migrate <version>
 
 ```
 
@@ -36,6 +38,6 @@
 
 ```bash 
     
-    $ vendor/bin/doctrine-migrations rollback <version> --configuration=migrations-config.php --db-configuration=app/Configs/Database/Connection/connection.php    
+    $ vendor/bin/doctrine-migrations rollback <version>  
 
 ```
