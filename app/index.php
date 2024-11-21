@@ -24,7 +24,7 @@ try {
     $routes = require './app/Router/routes.php';
     $routes($app);
     
-    // * Add the backup script in API.
+    // * Add the automated backup in API.
     if($dict_ENV['ENV_MODE'] == 'production') {
         $backupScheduler = new BackupDatabase();
         while (true) {
