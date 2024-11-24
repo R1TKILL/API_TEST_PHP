@@ -41,7 +41,7 @@ class DatabaseConnection {
                 'port'        => (string) $dict_ENV['DB_PORT'],              
                 'sslmode'     => (string) $dict_ENV['DB_SSLMODE'], // * Options: disable, allow, prefer, require, verify-ca, verify-full
                 'sslrootcert' => (string) $dict_ENV['DB_SSLROOTCERT'], // * ssl_ca path, require for verify-ca or verify-full
-                'charset'     => 'utf8mb4',
+                'charset'     => (string) $dict_ENV['DB_CHARSET'],
                 'driverOptions' => [
                     \PDO::ATTR_TIMEOUT => 5 // * Timeout for connection (in seconds)
                 ]

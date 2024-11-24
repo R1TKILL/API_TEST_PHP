@@ -1,3 +1,9 @@
-# Config files:
+# Folders:
+vendor/
+.vscode/
+.idea/
 
+# Files:
 .env
+*.log
+tasks.txt

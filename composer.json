@@ -14,7 +14,7 @@
         "github": "https://github.com/R1TKILL"
     },
     "require": {
-        "php": "8.2.12",
+        "php": "8.*",
         "slim/slim": "4.*",
         "slim/psr7": "^1.7",
         "doctrine/orm": "^3.2",
@@ -50,8 +50,8 @@
             "vendor/bin/doctrine-migrations migrate || vendor/bin/doctrine-migrations migrate 20240920165939"
         ],
         "test": "echo \"No test command specified\" && exit 0",
-        "dev": "php start.php",
-        "build": "echo \"No build command specified\" && exit 0"
+        "dev": "php -d variables_order=EGPCS -r \"putenv('ENV=development'); include 'start.php';\"",
+        "build": "php -d variables_order=EGPCS -r \"putenv('ENV=production'); include 'start.php';\""
     }
 
 }

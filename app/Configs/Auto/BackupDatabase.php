@@ -11,30 +11,19 @@ class BackupDatabase {
 
     // * Methods:
     private LogConfig $logger;
-    private string $currentDay;
-    private string $currentHour;
     private string $backupDir;
     private string $backupFile;
     private string $command;
 
 
     // * Constructor:
-    public function runBackup() {
-
+    public function __construct() {
         $this->logger = new LogConfig();
-
-        // * Receive the date in hour in number format:
-        $this->currentDay = date('w');  // * 0 = Sunday, 1 = Monday, ..., 5 = Friday
-        $this->currentHour = date('H'); // * Hour in 24h format
-
-        // * Verify if is the Friday at 23:00:
-        if ($this->currentDay == 5 && $this->currentHour == 23) {
-            $this->executeBackup();
-        }
-
+        $this->executeBackup();
     }
 
 
+    // * Methods:
     public function executeBackup() {
 
         try{
@@ -61,3 +50,5 @@ class BackupDatabase {
 
     }
 }
+
+new BackupDatabase();
