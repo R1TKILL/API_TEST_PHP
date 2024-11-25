@@ -48,8 +48,7 @@
         "base": ["rm -rf vendor/", "rm -rf composer.lock", "cp .env.example .env", "composer install"],
         "migration:start": "vendor/bin/doctrine-migrations migrate || vendor/bin/doctrine-migrations migrate 20240920165939",
         "test": "echo \"No test command specified\" && exit 0",
-        "dev": "php -d variables_order=EGPCS -r \"putenv('ENV=development'); include 'start.php';\"",
-        "build": "php -d variables_order=EGPCS -r \"putenv('ENV=production'); include 'start.php';\""
+        "start": "php start.php"
     }
 
 }

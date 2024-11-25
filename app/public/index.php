@@ -1,6 +1,6 @@
 <?php
 
-require 'vendor/autoload.php';
+require __DIR__ . '/../../vendor/autoload.php';
 require './app/Configs/Env/env.php';
 
 use Slim\Factory\AppFactory;

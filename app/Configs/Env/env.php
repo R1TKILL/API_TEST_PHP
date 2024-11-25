@@ -10,13 +10,13 @@ $dotenv = Dotenv::createImmutable($envPath);
 $dotenv->load();
 
 // * Define the ambient (test, development or production)
-$modeApplication = getenv('ENV') ?: 'development';
+$modeApplication = $_ENV['ENV_MODE'] ?: 'development';
 $dict_ENV = [];
 
 // * Loads the variables according to the environment.
 if ($modeApplication == 'test') {
     $dict_ENV = [
-        'ENV_MODE' => getenv('ENV'),
+        'ENV_MODE' => $_ENV['ENV_MODE'],
         'ORIGIN_ADDRESS' => $_ENV['TEST_ORIGIN_ADDRESS'],
         'HOST' => $_ENV['TEST_HOST'],
         'PORT' => $_ENV['TEST_PORT'],
@@ -39,7 +39,7 @@ if ($modeApplication == 'test') {
     ];
 } elseif ($modeApplication == 'development') {
     $dict_ENV = [
-        'ENV_MODE' => getenv('ENV'),
+        'ENV_MODE' => $_ENV['ENV_MODE'],
         'ORIGIN_ADDRESS' => $_ENV['DEV_ORIGIN_ADDRESS'],
         'HOST' => $_ENV['DEV_HOST'],
         'PORT' => $_ENV['DEV_PORT'],
@@ -62,7 +62,7 @@ if ($modeApplication == 'test') {
     ];
 } else { // * Ambient of Production
     $dict_ENV = [
-        'ENV_MODE' => getenv('ENV'),
+        'ENV_MODE' => $_ENV['ENV_MODE'],
         'ORIGIN_ADDRESS' => $_ENV['PROD_ORIGIN_ADDRESS'],
         'HOST' => $_ENV['PROD_HOST'],
         'PORT' => $_ENV['PROD_PORT'],
