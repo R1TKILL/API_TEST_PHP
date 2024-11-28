@@ -104,7 +104,6 @@ class PessoaDAO implements IEntityRepository {
             $this->pessoaModel->setEmail($pessoaDTO->email);
             $this->pessoaModel->setCell($pessoaDTO->cell);
 
-            print_r($pessoaDTO);
             $this->entityManager->beginTransaction();
             $this->entityManager->persist($this->pessoaModel);
             $this->entityManager->flush();

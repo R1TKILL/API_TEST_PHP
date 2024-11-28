@@ -6,4 +6,5 @@ vendor/
 # Files:
 .env
 *.log
+.phpunit.result.cache
 tasks.txt

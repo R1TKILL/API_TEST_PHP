@@ -14,7 +14,7 @@
         "github": "https://github.com/R1TKILL"
     },
     "require": {
-        "php": "8.*",
+        "php": "^8.2.12",
         "slim/slim": "4.*",
         "slim/psr7": "^1.7",
         "doctrine/orm": "^3.2",
@@ -47,8 +47,14 @@
     "scripts": {
         "base": ["rm -rf vendor/", "rm -rf composer.lock", "cp .env.example .env", "composer install"],
         "migration:start": "vendor/bin/doctrine-migrations migrate || vendor/bin/doctrine-migrations migrate 20240920165939",
-        "test": "echo \"No test command specified\" && exit 0",
+        "test:all": "vendor/bin/phpunit",
+        "test:unit": "echo \"No specific command for unit test\"",
+        "test:integration": "vendor/bin/phpunit --testsuite \"Integration Tests\"",
+        "test:functional": "echo \"No specific command for functional test\"",
+        "test:performance": "echo \"No specific command for performance test\"",
         "start": "php start.php"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^11.4"
     }
-
 }
