@@ -13,7 +13,6 @@ class PessoaIntegrationTest extends TestCase {
     private DatabaseTestConnection $databaseConnection;
     private EntityManager $entityManager;
 
-    
     protected function setUp(): void {
 
         // * Get the instance of database:
@@ -157,4 +156,5 @@ class PessoaIntegrationTest extends TestCase {
         $this->assertNull($deletedPessoa);
 
     }
+    
 }

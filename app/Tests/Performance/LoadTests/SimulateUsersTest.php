@@ -7,11 +7,11 @@ use GuzzleHttp\Client;
 
 class SimulateUsersTest extends TestCase {
 
-    // * Config for start the server before of tests.
     protected static $serverProcess;
 
+    // * Config for start the server before of tests.
     public static function setUpBeforeClass(): void {
-        self::$serverProcess = proc_open("php -r \"putenv('APP_ENV=test'); include 'start.php';\"", [], $pipes);
+        self::$serverProcess = proc_open("composer run start:test", [], $pipes);
     }
 
 
@@ -26,7 +26,7 @@ class SimulateUsersTest extends TestCase {
     public function testEndpointsPerformance() {
 
         $client = new Client();
-        $endpoints = json_decode(file_get_contents('app/Tests/Performance/Helpers/api_endpoints.json'), true);
+        $endpoints = require 'app/Tests/Performance/Helpers/api_endpoints.php';
     
         // * Config of multiply users:
         $users = 50; // * Number of users.
@@ -106,4 +106,5 @@ class SimulateUsersTest extends TestCase {
             ];
         }
     }
+    
 }
