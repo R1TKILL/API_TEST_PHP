@@ -7,5 +7,10 @@
             <directory>./app/Tests/Integration</directory>
         </testsuite>
 
+        <!-- * Suite for performance tests * -->
+        <testsuite name="Performance Tests">
+            <directory>./app/Tests/Performance</directory>
+        </testsuite>
+
     </testsuites>
 </phpunit>
