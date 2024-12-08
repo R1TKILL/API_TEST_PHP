@@ -1,5 +1,4 @@
 {
-
     "name": "r1tkill/api_test_php",
     "type": "project",
     "description": "API in PHP for tests and use in others programs",
@@ -50,7 +49,7 @@
         "test:all": "vendor/bin/phpunit",
         "test:unit": "echo \"No specific command for unit test\"",
         "test:integration": "vendor/bin/phpunit --testsuite \"Integration Tests\"",
-        "test:functional": "echo \"No specific command for functional test\"",
+        "test:functional": "vendor/bin/phpunit --testsuite \"Functional Tests\"",
         "test:performance": "vendor/bin/phpunit --testsuite \"Performance Tests\"",
         "start:test":"php -r \"putenv('APP_ENV=test'); include 'start.php';\"",
         "start:dev": "php -r \"putenv('APP_ENV=development'); include 'start.php';\"",

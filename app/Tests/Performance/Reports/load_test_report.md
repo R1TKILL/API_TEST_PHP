@@ -6,7 +6,7 @@
 - **Success:** 500
 - **Errors:** 0
 - **Rate of Success:** 100%
-- **Total Time:** 140.80 ms
+- **Total Time:** 1,312.06 ms
 
 ## Endpoint: /pessoa/items
 - **Http Method:** POST
@@ -14,7 +14,7 @@
 - **Success:** 500
 - **Errors:** 0
 - **Rate of Success:** 100%
-- **Total Time:** 170.95 ms
+- **Total Time:** 236.11 ms
 
 ## Endpoint: /pessoa/items/1
 - **Http Method:** PUT
@@ -22,7 +22,7 @@
 - **Success:** 500
 - **Errors:** 0
 - **Rate of Success:** 100%
-- **Total Time:** 138.20 ms
+- **Total Time:** 192.57 ms
 
 ## Endpoint: /pessoa/items/1
 - **Http Method:** DELETE
@@ -30,5 +30,5 @@
 - **Success:** 500
 - **Errors:** 0
 - **Rate of Success:** 100%
-- **Total Time:** 147.07 ms
+- **Total Time:** 228.00 ms
 

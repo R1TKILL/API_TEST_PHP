@@ -7,9 +7,9 @@
 
 | Endpoint | Method | Response Time | Status |
 |----------|--------|---------------|--------|
-| `/pessoa/items` | `GET` | 0.30350995063782s (303.50995063782 ms) | ✅ Success |
-| `/pessoa/items` | `POST` | 0.35268807411194s (352.68807411194 ms) | ✅ Success |
-| `/pessoa/items/1` | `PUT` | 0.32683491706848s (326.83491706848 ms) | ✅ Success |
-| `/pessoa/items/1` | `DELETE` | 0.25500702857971s (255.00702857971 ms) | ✅ Success |
+| `/pessoa/items` | `GET` | 2.5985889434814s (2598.5889434814 ms) | ✅ Success |
+| `/pessoa/items` | `POST` | 0.28493881225586s (284.93881225586 ms) | ✅ Success |
+| `/pessoa/items/1` | `PUT` | 0.35862898826599s (358.62898826599 ms) | ✅ Success |
+| `/pessoa/items/1` | `DELETE` | 0.31868600845337s (318.68600845337 ms) | ✅ Success |
 
 > **Note:** Endpoints marked with `❌` exceeded the time limit of 5 seconds.

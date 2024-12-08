@@ -1,8 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit bootstrap="vendor/autoload.php" colors="true">
-    <testsuites>
 
-        <!-- * Suite for tests of integration * -->
+    <php>
+        <!-- * Setting the APP_ENV value for tests * -->
+        <env name="APP_ENV" value="test"/>
+    </php>
+
+    <testsuites>
+        <!-- * Suite for functional tests * -->
+        <testsuite name="Functional Tests">
+            <directory>./app/Tests/Functional</directory>
+        </testsuite>
+
+        <!-- * Suite for integration tests * -->
         <testsuite name="Integration Tests">
             <directory>./app/Tests/Integration</directory>
         </testsuite>
@@ -11,6 +21,6 @@
         <testsuite name="Performance Tests">
             <directory>./app/Tests/Performance</directory>
         </testsuite>
-
     </testsuites>
+    
 </phpunit>

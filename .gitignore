@@ -2,6 +2,7 @@
 vendor/
 .vscode/
 .idea/
+app/Tests/Performance/Reports/
 
 # Files:
 .env

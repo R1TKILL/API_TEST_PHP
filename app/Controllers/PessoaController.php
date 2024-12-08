@@ -13,7 +13,9 @@ class PessoaController {
 
     // * Atributes:
     private PessoaService $pessoaService;
+    private string $msg;
     private LogConfig $logger;
+    private int $status_code;
 
 
     // * Constructor:
@@ -29,21 +31,21 @@ class PessoaController {
         try {
 
             $queryParams = $request->getQueryParams();
-            $page = isset($queryParams['page']) ? (int)$queryParams['page'] : 1;
-            $pageSize = isset($queryParams['pageSize']) ? (int)$queryParams['pageSize'] : 5;
+            $page = isset($queryParams['page']) ? (int) $queryParams['page'] : 1;
+            $pageSize = isset($queryParams['pageSize']) ? (int) $queryParams['pageSize'] : 5;
 
             $pessoas = $this->pessoaService->getAll($page, $pageSize);
-    
-            if(!$pessoas or $pessoas == null) {
-                return $response->withStatus(404, 'Error when trying to list to dates of database');
-            }
-    
+
             $response->getBody()->write(json_encode($pessoas));
-            $response->withHeader('Content-Type', 'application/json');
-            return $response;
+            ($pessoas) 
+             ? [$this->status_code = 200, $this->msg = 'OK'] 
+             : [$this->status_code = 404, $this->msg = 'People not found'];
+
+            return $response->withHeader('Content-Type', 'application/json')->withStatus($this->status_code, $this->msg);
 
         } catch(Exception $ex) {
             $this->logger->appLogMsg('ERROR', 'Error in PessoaController->getAll, type error: ' . $ex->getMessage());
+            return $response->withHeader('Content-Type', 'application/json')->withStatus(500, 'Error when trying to list to dates of database');
         }
         
     }
@@ -56,15 +58,17 @@ class PessoaController {
             $id = (int) $args['id'];
             $pessoa = $this->pessoaService->getById($id);
 
-            if(!$pessoa or $pessoa == null) {
-                return $response->withStatus(404, "People not found");
-            }
-
             $response->getBody()->write(json_encode($pessoa));
-            return $response->withHeader('Content-Type', 'application/json');
+            ($pessoa) 
+             ? [$this->status_code = 200, $this->msg = 'OK'] 
+             : [$this->status_code = 404, $this->msg = 'People not found'];
+
+            return $response->withHeader('Content-Type', 'application/json')->withStatus($this->status_code, $this->msg);
+
 
         } catch(Exception $ex) {
             $this->logger->appLogMsg('ERROR', 'Error in PessoaController->getById, type error: ' . $ex->getMessage());
+            return $response->withHeader('Content-Type', 'application/json')->withStatus(500, 'Error when trying to list to data by ID of database');
         }
 
     }
@@ -77,16 +81,15 @@ class PessoaController {
             $data = $request->getParsedBody();
             $result = $this->pessoaService->create($data);
 
-            if($result) {
-                $response->withHeader('Content-Type', 'text/plain')->withStatus(201, 'Created successfully');
-            } else {
-                $response->withHeader('Content-Type', 'text/plain')->withStatus(500, 'Error when trying to insert the dates');
-            }
+            ($result) 
+             ? [$this->status_code = 201, $this->msg = 'Created successfully'] 
+             : [$this->status_code = 500, $this->msg = 'Error when trying to insert dates'];
 
-            return $response;
+            return $response->withHeader('Content-Type', 'application/json')->withStatus($this->status_code, $this->msg);
 
         } catch(Exception $ex) {
             $this->logger->appLogMsg('ERROR', 'Error in PessoaController->create, type error: ' . $ex->getMessage());
+            return $response->withHeader('Content-Type', 'application/json')->withStatus(500, 'Error when trying to insert the dates');
         }
 
     }
@@ -100,38 +103,37 @@ class PessoaController {
             $data = $request->getParsedBody();
             $updatedPessoa = $this->pessoaService->update($id, $data);
 
-            if($updatedPessoa) {
-                $response->withHeader('Content-Type', 'text/plain')->withStatus(200, 'Updated successfully');
-                return $response;
-            } else {
-                $response->withHeader('Content-Type', 'text/plain')->withStatus(500, 'Error when trying to update dates');
-                return $response;
-            }
+            ($updatedPessoa) 
+             ? [$this->status_code = 200, $this->msg = 'Updated successfully'] 
+             : [$this->status_code = 500, $this->msg = 'Error when trying to update dates'];
 
-            return $response;
+            return $response->withHeader('Content-Type', 'application/json')->withStatus($this->status_code, $this->msg);
 
         } catch(Exception $ex) {
             $this->logger->appLogMsg('ERROR', 'Error in PessoaController->update, type error: ' . $ex->getMessage());
+            return $response->withHeader('Content-Type', 'application/json')->withStatus(500, 'Error when trying to update dates');
         }
 
     }
 
     
-    public function delete(Request $request, Response $response, $args): Response {
+    public function delete(Request $request, Response $response, array $args): Response {
 
         try {
 
-            $id = $args['id'];
+            $id = (int) $args['id'];
             $deleted = $this->pessoaService->delete($id);
+            
+            ($deleted) 
+             ? [$this->status_code = 200, $this->msg = 'Removed successfully'] 
+             : [$this->status_code = 500, $this->msg = 'Error when trying to remove dates'];
 
-            if(!$deleted) {
-                return $response->withStatus(500, 'Error when trying to remove to date of database');
-            }
-
-            return $response->withStatus(200, 'Removed successfully');
+            return $response->withHeader('Content-Type', 'application/json')->withStatus($this->status_code, $this->msg);
 
         } catch(Exception $ex) {
             $this->logger->appLogMsg('ERROR', 'Error in PessoaController->delete, type error: ' . $ex->getMessage());
+            return $response->withHeader('Content-Type', 'application/json')->withStatus(500, 'Error when trying to remove to date of database');
+
         }
 
     }

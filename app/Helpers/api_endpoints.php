@@ -3,6 +3,7 @@
 require './app/Configs/Env/env.php';
 
 if(getenv('APP_ENV') == '' || getenv('APP_ENV') == null) {
+    echo "\n***APP_ENV is empty or null!***\n";
     putenv('APP_ENV=test');
 }
 
@@ -29,7 +30,7 @@ return [
                 'name' => 'Test User',
                 'age' => 35,
                 'email' => 'test@example.com',
-                'cell' => 'Test User',
+                'cell' => '5547937290140'
             ],
         ],
         [

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use GuzzleHttp\Client;
 use PHPUnit\Framework\TestCase;
 
@@ -27,7 +29,7 @@ class ResponseTimeTest extends TestCase {
     protected function setUp(): void {
 
         // * Load configs of PHP file.
-        $this->settings = require 'app/Tests/Performance/Helpers/api_endpoints.php';
+        $this->settings = require 'app/Helpers/api_endpoints.php';
 
         // * Create a cliente of Guzzle with base_url config.
         $this->client = new Client(['base_uri' => $this->settings['base_url']]);

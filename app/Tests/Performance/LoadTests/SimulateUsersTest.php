@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 namespace Tests\Performance\LoadTests;
 
 use PHPUnit\Framework\TestCase;
@@ -26,7 +27,7 @@ class SimulateUsersTest extends TestCase {
     public function testEndpointsPerformance() {
 
         $client = new Client();
-        $endpoints = require 'app/Tests/Performance/Helpers/api_endpoints.php';
+        $endpoints = require 'app/Helpers/api_endpoints.php';
     
         // * Config of multiply users:
         $users = 50; // * Number of users.

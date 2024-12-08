@@ -164,6 +164,8 @@ class PessoaDAO implements IEntityRepository {
             $this->entityManager->beginTransaction();
             $this->entityManager->remove($pessoa);
             $this->entityManager->flush();
+            $this->entityManager->commit();
+            
             return true;
 
         } catch(Exception $ex) {

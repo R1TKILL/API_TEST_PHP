@@ -33,7 +33,7 @@ class PessoaService {
             $pessoaObject = [];
 
             if(!$pessoas) {
-                return false;
+                return [];
             }
 
             foreach ($pessoas as $pessoa) {
@@ -63,7 +63,7 @@ class PessoaService {
             $pessoaByID = $this->pessoaDAO->loadById($id);
 
             if(!$pessoaByID) {
-                return false;
+                return [];
             }
             
             $pessoaObjectByID = [
@@ -121,7 +121,7 @@ class PessoaService {
     public function delete($id): bool {
 
         try {
-            
+ 
             return $this->pessoaDAO->delete($id);
 
         } catch (Exception $ex) {
