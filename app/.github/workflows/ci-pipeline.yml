@@ -1,6 +1,6 @@
 # * Test routine, must run all tests and verify that they were all approved to execute the deployment script.
 
-name: CI Workflow for SlimPHP API
+name: CI Pipeline
 
 on:
   push:
