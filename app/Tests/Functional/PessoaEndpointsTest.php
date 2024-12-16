@@ -6,6 +6,8 @@ use App\Database\DatabaseTestConnection;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\EntityManager;
 use App\Helpers\ServerTestManager;
+use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 
 class PessoaEndpointsTest extends ServerTestManager {
 
@@ -16,6 +18,7 @@ class PessoaEndpointsTest extends ServerTestManager {
     private string $baseUrl;
     private DatabaseTestConnection $databaseConnection;
     private EntityManager $entityManager;
+    private Client $httpClient;
 
     // * Config the params for url.
     protected function setUp(): void {
@@ -39,12 +42,43 @@ class PessoaEndpointsTest extends ServerTestManager {
         $this->api_prefix = (string) $this->env['PREFIX_API'];
         $this->baseUrl = "http://{$this->host}:{$this->port}{$this->api_prefix}";
 
+        // * Initialize Guzzle Client
+        $this->httpClient = new Client();
     }
 
+    // * Method for making HTTP requests using Guzzle
+    private function makeRequest(string $method, string $url, string $payload = null): array {
+        try {
+            $options = [];
+
+            // Add JSON payload if provided
+            if ($payload) {
+                $options['headers'] = [
+                    'Content-Type' => 'application/json'
+                ];
+                $options['body'] = $payload;
+            }
+
+            // Execute the request
+            $response = $this->httpClient->request($method, $url, $options);
+
+            // Return response details
+            return [
+                'http_code' => $response->getStatusCode(),
+                'body' => (string) $response->getBody(),
+            ];
+        } catch (RequestException $e) {
+            // Handle errors and return the response code and body
+            return [
+                'http_code' => $e->getResponse() ? $e->getResponse()->getStatusCode() : 500,
+                'body' => $e->getMessage(),
+            ];
+        }
+    }
 
     // * Testing a POST endpoint.
     public function testPostEndpoint() {
-
+        
         $url = $this->baseUrl . '/pessoa/items';
         $payload = json_encode([
             'name' => 'Alfredo Aguiar de Macedo',
@@ -61,7 +95,6 @@ class PessoaEndpointsTest extends ServerTestManager {
 
     }
 
-
     // * Testing a GET endpoint.
     public function testGetEndpoint() {
 
@@ -75,13 +108,12 @@ class PessoaEndpointsTest extends ServerTestManager {
         // * Verify if the HTTP status is 200 (OK).
         $this->assertEquals(200, $response['http_code']);
 
-        // * Verify if the return contains expects dates forms.
+        // * Verify if the return contains expected data forms.
         $data = json_decode($response['body'], true);
         $this->assertIsArray($data);
         $this->assertNotEmpty($data);
 
     }
-
 
     // * Testing a PUT endpoint.
     public function testPutEndpoint() {
@@ -102,9 +134,8 @@ class PessoaEndpointsTest extends ServerTestManager {
         // * Verify if the HTTP status is 200 (OK).
         $this->assertEquals(200, $response['http_code']);
 
-        // * Verify if the dates have been updated.
+        // * Verify if the data has been updated.
         if ($response['http_code'] == 200) {
-
             $response = $this->makeRequest('GET', $url);
             $data = json_decode($response['body'], true);
 
@@ -112,9 +143,7 @@ class PessoaEndpointsTest extends ServerTestManager {
             $this->assertEquals(38, $data['age']);
 
         }
-
     }
-
 
     // * Testing a DELETE endpoint.
     public function testDeleteEndpoint() {
@@ -130,39 +159,4 @@ class PessoaEndpointsTest extends ServerTestManager {
         $this->assertEquals(200, $response['http_code']);
 
     }
-
-
-    // * Method for do making HTTP requests.
-    private function makeRequest(string $method, string $url, string $payload = null): array {
-
-        $ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
-
-        if ($payload) {
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-            curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                'Content-Type: application/json',
-                'Content-Length: ' . strlen($payload)
-            ]);
-        }
-
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-        echo "\nMetodo => $method\n";
-        curl_setopt($ch, CURLOPT_VERBOSE, true);
-        echo "\n";
-
-        $response = curl_exec($ch);
-        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-
-        return [
-            'http_code' => $httpCode,
-            'body' => $response,
-        ];
-
-    }
-
 }

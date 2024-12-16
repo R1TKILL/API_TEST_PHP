@@ -48,8 +48,8 @@
         "base": ["rm -rf vendor/", "cp .env.example .env", "composer install"],
         
         "migration:test": "php -r \"putenv('APP_ENV=test'); passthru('php vendor/bin/doctrine-migrations migrations:migrate');\"",
-        "migration:dev": "php -r \"putenv('APP_ENV=development'); passthru('php vendor/bin/doctrine-migrations migrate ' . escapeshellarg($argv[1] ?? ''));\" --",
-        "migration:prod": "php -r \"putenv('APP_ENV=production'); passthru('php vendor/bin/doctrine-migrations migrate ' . escapeshellarg($argv[1] ?? ''));\" --",
+        "migration:dev": "php -r \"putenv('APP_ENV=development'); passthru('php vendor/bin/doctrine-migrations migrations:migrate');\"",
+        "migration:prod": "php -r \"putenv('APP_ENV=production'); passthru('php vendor/bin/doctrine-migrations migrations:migrate');\"",
         
         "test:all": "vendor/bin/phpunit",
         "test:unit": "echo \"No specific command for unit test\"",
