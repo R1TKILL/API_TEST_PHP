@@ -74,8 +74,5 @@ jobs:
     - name: Run Migrations
       run: composer run migration:test
 
-    - name: Dump autoload
-      run: composer dump-autoload --optimize
-
     - name: Run All Tests
       run: composer run test:all
