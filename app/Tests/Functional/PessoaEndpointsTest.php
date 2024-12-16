@@ -11,11 +11,7 @@ use GuzzleHttp\Exception\RequestException;
 
 class PessoaEndpointsTest extends ServerTestManager {
 
-    private array $env;
-    private string $host;
-    private string $port;
-    private string $api_prefix;
-    private string $baseUrl;
+    private string $baseUrl; // Agora vamos usar diretamente a baseUrl do arquivo api_endpoints.php
     private DatabaseTestConnection $databaseConnection;
     private EntityManager $entityManager;
     private Client $httpClient;
@@ -23,9 +19,6 @@ class PessoaEndpointsTest extends ServerTestManager {
 
     // * Config the params for url.
     protected function setUp(): void {
-
-        // * Load environments.
-        $this->env = require 'app/Helpers/LoadEnvironments.php';
 
         // * Get the instance of database:
         $this->databaseConnection = new DatabaseTestConnection();
@@ -37,17 +30,14 @@ class PessoaEndpointsTest extends ServerTestManager {
         $schemaTool->dropSchema($classes); 
         $schemaTool->createSchema($classes);
 
-        // * Config address for tests.
-        $this->host = (string) $this->env['HOST'];
-        $this->port = (string) $this->env['PORT'];
-        $this->api_prefix = (string) $this->env['PREFIX_API'];
-        $this->baseUrl = "http://{$this->host}:{$this->port}{$this->api_prefix}";
+        // * Load endpoints configuration from api_endpoints.php
+        $this->endpoints = require 'app/Helpers/api_endpoints.php';
+
+        // * Directly use the baseUrl from api_endpoints.php
+        $this->baseUrl = $this->endpoints['base_url']; // A baseUrl já está configurada no arquivo api_endpoints.php
 
         // * Initialize Guzzle Client
         $this->httpClient = new Client();
-
-        // * Load endpoints configuration from api_endpoints.php
-        $this->endpoints = require 'app/Helpers/api_endpoints.php';
     }
 
     // * Method for making HTTP requests using Guzzle
@@ -79,10 +69,9 @@ class PessoaEndpointsTest extends ServerTestManager {
 
     // * Test all endpoints dynamically from the api_endpoints configuration.
     public function testEndpoints() {
-
         foreach ($this->endpoints['endpoints'] as $endpoint) {
 
-            $url = $this->baseUrl . $endpoint['url'];
+            $url = $this->baseUrl . $endpoint['url']; // Agora, usamos a baseUrl já configurada
             $method = $endpoint['method'];
             $payload = $endpoint['payload'] ?? null;
 
