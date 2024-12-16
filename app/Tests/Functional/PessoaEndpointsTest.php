@@ -50,31 +50,29 @@ class PessoaEndpointsTest extends ServerTestManager {
     private function makeRequest(string $method, string $url, string $payload = null): array {
         try {
             $options = [];
-
-            // Add JSON payload if provided
+    
+            // Adiciona o payload como JSON, se fornecido
             if ($payload) {
-                $options['headers'] = [
-                    'Content-Type' => 'application/json'
-                ];
-                $options['body'] = $payload;
+                $options['json'] = json_decode($payload, true); // Envia o payload como JSON
             }
-
-            // Execute the request
+    
+            // Executa a requisição
             $response = $this->httpClient->request($method, $url, $options);
-
-            // Return response details
+    
+            // Retorna os detalhes da resposta
             return [
                 'http_code' => $response->getStatusCode(),
                 'body' => (string) $response->getBody(),
             ];
         } catch (RequestException $e) {
-            // Handle errors and return the response code and body
+            // Lida com erros e retorna o código e corpo da resposta
             return [
                 'http_code' => $e->getResponse() ? $e->getResponse()->getStatusCode() : 500,
                 'body' => $e->getMessage(),
             ];
         }
     }
+    
 
     // * Testing a POST endpoint.
     public function testPostEndpoint() {
