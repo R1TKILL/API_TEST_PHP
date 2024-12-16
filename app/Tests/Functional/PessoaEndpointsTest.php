@@ -6,19 +6,23 @@ use App\Database\DatabaseTestConnection;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\EntityManager;
 use App\Helpers\ServerTestManager;
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
 
+// ! Funciona perfeitamente, descobrir porque no github_actions não encontra a dependency_injection na rota.
 class PessoaEndpointsTest extends ServerTestManager {
 
-    private string $baseUrl; // Agora vamos usar diretamente a baseUrl do arquivo api_endpoints.php
+    private array $env;
+    private string $host;
+    private string $port;
+    private string $api_prefix;
+    private string $baseUrl;
     private DatabaseTestConnection $databaseConnection;
     private EntityManager $entityManager;
-    private Client $httpClient;
-    private array $endpoints;
 
     // * Config the params for url.
     protected function setUp(): void {
+
+        // * Load environments.
+        $this->env = require 'app/Helpers/LoadEnvironments.php';
 
         // * Get the instance of database:
         $this->databaseConnection = new DatabaseTestConnection();
@@ -30,78 +34,136 @@ class PessoaEndpointsTest extends ServerTestManager {
         $schemaTool->dropSchema($classes); 
         $schemaTool->createSchema($classes);
 
-        // * Load endpoints configuration from api_endpoints.php
-        $this->endpoints = require 'app/Helpers/api_endpoints.php';
+        // * Config address for tests.
+        $this->host = (string) $this->env['HOST'];
+        $this->port = (string) $this->env['PORT'];
+        $this->api_prefix = (string) $this->env['PREFIX_API'];
+        $this->baseUrl = "http://{$this->host}:{$this->port}{$this->api_prefix}";
 
-        // * Directly use the baseUrl from api_endpoints.php
-        $this->baseUrl = $this->endpoints['base_url']; // A baseUrl já está configurada no arquivo api_endpoints.php
-
-        // * Initialize Guzzle Client
-        $this->httpClient = new Client();
     }
 
-    // * Method for making HTTP requests using Guzzle
+
+    // * Testing a POST endpoint.
+    public function testPostEndpoint() {
+
+        $url = $this->baseUrl . '/pessoa/items';
+        $payload = json_encode([
+            'name' => 'Alfredo Aguiar de Macedo',
+            'age' => 35,
+            'email' => 'alfredo_aguiar193@gmail.com',
+            'cell' => '5521978114588'
+        ]);
+
+        // * Executing the request.
+        $response = $this->makeRequest('POST', $url, $payload);
+
+        // * Verify if the HTTP status is 201 (Created).
+        $this->assertEquals(201, $response['http_code']);
+
+    }
+
+
+    // * Testing a GET endpoint.
+    public function testGetEndpoint() {
+
+        $this->testPostEndpoint();
+
+        $url = $this->baseUrl . '/pessoa/items';
+
+        // * Executing the request.
+        $response = $this->makeRequest('GET', $url);
+
+        // * Verify if the HTTP status is 200 (OK).
+        $this->assertEquals(200, $response['http_code']);
+
+        // * Verify if the return contains expects dates forms.
+        $data = json_decode($response['body'], true);
+        $this->assertIsArray($data);
+        $this->assertNotEmpty($data);
+
+    }
+
+
+    // * Testing a PUT endpoint.
+    public function testPutEndpoint() {
+
+        $this->testPostEndpoint();
+
+        $url = $this->baseUrl . '/pessoa/items/1';
+        $payload = json_encode([
+            'name' => 'Alfredo Aguiar de Macedo',
+            'email' => 'alfredo_aguiar349@gmail.com',
+            'age' => 38,
+            'cell' => '5521978114588'
+        ]);
+
+        // * Executing the request.
+        $response = $this->makeRequest('PUT', $url, $payload);
+
+        // * Verify if the HTTP status is 200 (OK).
+        $this->assertEquals(200, $response['http_code']);
+
+        // * Verify if the dates have been updated.
+        if ($response['http_code'] == 200) {
+
+            $response = $this->makeRequest('GET', $url);
+            $data = json_decode($response['body'], true);
+
+            $this->assertEquals('alfredo_aguiar349@gmail.com', $data['email']);
+            $this->assertEquals(38, $data['age']);
+
+        }
+
+    }
+
+
+    // * Testing a DELETE endpoint.
+    public function testDeleteEndpoint() {
+
+        $this->testPostEndpoint();
+
+        $url = $this->baseUrl . '/pessoa/items/1';
+
+        // * Executing the request.
+        $response = $this->makeRequest('DELETE', $url);
+
+        // * Verify if the HTTP status is 200 (OK).
+        $this->assertEquals(200, $response['http_code']);
+
+    }
+
+
+    // * Method for do making HTTP requests.
     private function makeRequest(string $method, string $url, string $payload = null): array {
-        try {
-            $options = [];
-    
-            // Adiciona o payload como JSON, se fornecido
-            if ($payload) {
-                $options['json'] = json_decode($payload, true); // Envia o payload como JSON
-            }
-    
-            // Executa a requisição
-            $response = $this->httpClient->request($method, $url, $options);
-    
-            // Retorna os detalhes da resposta
-            return [
-                'http_code' => $response->getStatusCode(),
-                'body' => (string) $response->getBody(),
-            ];
-        } catch (RequestException $e) {
-            // Lida com erros e retorna o código e corpo da resposta
-            return [
-                'http_code' => $e->getResponse() ? $e->getResponse()->getStatusCode() : 500,
-                'body' => $e->getMessage(),
-            ];
+
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
+
+        if ($payload) {
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Content-Type: application/json',
+                'Content-Length: ' . strlen($payload)
+            ]);
         }
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        echo "\nMetodo => $method\n";
+        curl_setopt($ch, CURLOPT_VERBOSE, true);
+        echo "\n";
+
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        return [
+            'http_code' => $httpCode,
+            'body' => $response,
+        ];
+
     }
 
-    // * Test all endpoints dynamically from the api_endpoints configuration.
-    public function testEndpoints() {
-        foreach ($this->endpoints['endpoints'] as $endpoint) {
-
-            $url = $this->baseUrl . $endpoint['url']; // Agora, usamos a baseUrl já configurada
-            $method = $endpoint['method'];
-            $payload = $endpoint['payload'] ?? null;
-
-            // Skip testing DELETE if no payload is provided (DELETE does not require a payload)
-            if ($method !== 'DELETE' && !$payload) {
-                continue;
-            }
-
-            // Execute the request
-            $response = $this->makeRequest($method, $url, $payload ? json_encode($payload) : null);
-
-            // Check HTTP status codes based on method type
-            if ($method === 'POST') {
-                $this->assertEquals(201, $response['http_code'], "POST request failed for {$endpoint['url']}");
-            } elseif ($method === 'GET') {
-                $this->assertEquals(200, $response['http_code'], "GET request failed for {$endpoint['url']}");
-            } elseif ($method === 'PUT') {
-                $this->assertEquals(200, $response['http_code'], "PUT request failed for {$endpoint['url']}");
-            } elseif ($method === 'DELETE') {
-                $this->assertEquals(200, $response['http_code'], "DELETE request failed for {$endpoint['url']}");
-            }
-
-            // Further assertions can be added here based on expected response content
-            if ($method === 'GET') {
-                $data = json_decode($response['body'], true);
-                $this->assertIsArray($data);
-                $this->assertNotEmpty($data);
-            }
-
-            // Optionally, you can log each endpoint's response time, status, and more
-        }
-    }
 }

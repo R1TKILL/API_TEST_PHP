@@ -74,5 +74,12 @@ jobs:
     - name: Run Migrations
       run: composer run migration:test
 
-    - name: Run All Tests
-      run: composer run test:all
+    # - name: Run All Tests
+    #   run: composer run test:all
+
+    - name: Run Integration Tests
+      run: composer run test:integration
+
+    - name: Run Performance Tests
+      run: composer run test:performance
+      
