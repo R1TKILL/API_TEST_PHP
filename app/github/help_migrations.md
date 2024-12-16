@@ -6,7 +6,7 @@
 
 ```bash 
     
-    $ vendor/bin/doctrine-migrations generate    
+    $ vendor/bin/doctrine-migrations migrations:generate    
 
 ```
 
@@ -14,11 +14,20 @@
 
 ```bash 
     
-    $ vendor/bin/doctrine-migrations status  
+    $ vendor/bin/doctrine-migrations migrations:list  
 
 ```
 
-* In first migration use:
+* status migrates:
+
+```bash 
+    
+    $ vendor/bin/doctrine-migrations migrations:status  
+
+```
+
+
+* migrate:
 
 ```bash 
     
@@ -26,11 +35,11 @@
 
 ```
 
-* In the next migrates:
+* specific migrate:
 
 ```bash 
     
-    $ vendor/bin/doctrine-migrations migrate <version>
+    $ vendor/bin/doctrine-migrations migrations:migrate <version>
 
 ```
 
@@ -38,6 +47,13 @@
 
 ```bash 
     
-    $ vendor/bin/doctrine-migrations rollback <version>  
+    #examples:
+
+    # Unix systems:
+    $ php vendor/bin/doctrine-migrations migrations:execute My\Namespace\Version12345 --down
+
+    # Windows systems:
+    $ php vendor/bin/doctrine-migrations migrations:execute My\\Namespace\\Version12345 --down
+  
 
 ```

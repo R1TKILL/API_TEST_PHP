@@ -3,26 +3,10 @@
 declare(strict_types=1);
 namespace Tests\Performance\LoadTests;
 
-use PHPUnit\Framework\TestCase;
+use App\Helpers\ServerTestManager;
 use GuzzleHttp\Client;
 
-class SimulateUsersTest extends TestCase {
-
-    protected static $serverProcess;
-
-    // * Config for start the server before of tests.
-    public static function setUpBeforeClass(): void {
-        self::$serverProcess = proc_open("composer run start:test", [], $pipes);
-    }
-
-
-    // * Config for end the server after of tests.
-    public static function tearDownAfterClass(): void {
-        if (self::$serverProcess) {
-            proc_terminate(self::$serverProcess);
-        }
-    }
-
+class SimulateUsersTest extends ServerTestManager {
     
     public function testEndpointsPerformance() {
 

@@ -40,17 +40,23 @@
             "App\\ContainersDI\\": "app/Configs/Containers",
             "App\\configLogs\\": "app/Configs/Log",
             "App\\SMTP\\": "app/Configs/Smtp",
-            "App\\Auto\\": "app/Configs/Auto"
+            "App\\Auto\\": "app/Configs/Auto",
+            "App\\Helpers\\": "app/Helpers"
         }
     },
     "scripts": {
-        "base": ["rm -rf vendor/", "rm -rf composer.lock", "cp .env.example .env", "composer install"],
-        "migration:start": "vendor/bin/doctrine-migrations migrate || vendor/bin/doctrine-migrations migrate 20240920165939",
+        "base": ["rm -rf vendor/", "cp .env.example .env", "composer install"],
+        
+        "migration:test": "php -r \"putenv('APP_ENV=test'); passthru('php vendor/bin/doctrine-migrations migrations:migrate');\"",
+        "migration:dev": "php -r \"putenv('APP_ENV=development'); passthru('php vendor/bin/doctrine-migrations migrate ' . escapeshellarg($argv[1] ?? ''));\" --",
+        "migration:prod": "php -r \"putenv('APP_ENV=production'); passthru('php vendor/bin/doctrine-migrations migrate ' . escapeshellarg($argv[1] ?? ''));\" --",
+        
         "test:all": "vendor/bin/phpunit",
         "test:unit": "echo \"No specific command for unit test\"",
         "test:integration": "vendor/bin/phpunit --testsuite \"Integration Tests\"",
         "test:functional": "vendor/bin/phpunit --testsuite \"Functional Tests\"",
         "test:performance": "vendor/bin/phpunit --testsuite \"Performance Tests\"",
+
         "start:test":"php -r \"putenv('APP_ENV=test'); include 'start.php';\"",
         "start:dev": "php -r \"putenv('APP_ENV=development'); include 'start.php';\"",
         "start:prod": "php -r \"putenv('APP_ENV=production'); include 'start.php';\""

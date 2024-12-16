@@ -3,7 +3,6 @@
 namespace App\Database;
 
 require_once __DIR__ . "/../../../../vendor/autoload.php";
-require './app/Configs/Env/env.php';
 
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
@@ -14,12 +13,12 @@ use Exception;
 class DatabaseConnection {
 
     // * Attributes:
+    private array $dict_ENV;
     private array $paths;
     private bool $isDevMode;
     private array $dbParams;
     private $metadataConfig;
     private $conn;
-    private EntityManager $entityManager;
     private LogConfig $logger;
 
 
@@ -28,27 +27,29 @@ class DatabaseConnection {
 
         try {
 
-            global $dict_ENV;
+            $this->dict_ENV = require 'app/Helpers/LoadEnvironments.php';
             $this->logger = new LogConfig();
        
             // * Keys for Database:
             $this->dbParams = array(
-                'driver'      => (string) $dict_ENV['DB_DIALECT'],
-                'user'        => (string) $dict_ENV['DB_USER'],
-                'password'    => (string) $dict_ENV['DB_PASS'],
-                'dbname'      => (string) $dict_ENV['DB_NAME'],
-                'host'        => (string) $dict_ENV['DB_HOST'],   
-                'port'        => (string) $dict_ENV['DB_PORT'],              
-                'sslmode'     => (string) $dict_ENV['DB_SSLMODE'], // * Options: disable, allow, prefer, require, verify-ca, verify-full
-                'sslrootcert' => (string) $dict_ENV['DB_SSLROOTCERT'], // * ssl_ca path, require for verify-ca or verify-full
-                'charset'     => (string) $dict_ENV['DB_CHARSET'],
+                'driver'      => (string) $this->dict_ENV['DB_DIALECT'],
+                'user'        => (string) $this->dict_ENV['DB_USER'],
+                'password'    => (string) $this->dict_ENV['DB_PASS'],
+                'dbname'      => (string) $this->dict_ENV['DB_NAME'],
+                'host'        => (string) $this->dict_ENV['DB_HOST'],   
+                'port'        => (string) $this->dict_ENV['DB_PORT'],              
+                'sslmode'     => (string) $this->dict_ENV['DB_SSLMODE'], // * Options: disable, allow, prefer, require, verify-ca, verify-full
+                'sslrootcert' => (string) $this->dict_ENV['DB_SSLROOTCERT'], // * ssl_ca path, require for verify-ca or verify-full
+                'charset'     => (string) $this->dict_ENV['DB_CHARSET'],
                 'driverOptions' => [
                     \PDO::ATTR_TIMEOUT => 5 // * Timeout for connection (in seconds)
                 ]
             );
     
             // * Config the metadata, devMode and Path for entities (Models):
-            $this->metadataConfig = ORMSetup::createAttributeMetadataConfiguration($this->paths = [__DIR__ . '/../../Models'], $this->isDevMode = true);
+            $this->metadataConfig = ORMSetup::createAttributeMetadataConfiguration(
+                $this->paths = [__DIR__ . '/../../Models'], $this->isDevMode = $this->dict_ENV['DB_DEVMODE']
+            );
             $this->conn = DriverManager::getConnection($this->dbParams, $this->metadataConfig);
             $this->logger->appLogMsg('INFO', 'Connected in database with success');
 

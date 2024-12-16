@@ -19,7 +19,6 @@ class DatabaseTestConnection {
     private array $dbParams;
     private $metadataConfig;
     private $conn;
-    private EntityManager $entityManager;
     private LogConfig $logger;
 
 
@@ -29,6 +28,10 @@ class DatabaseTestConnection {
         try {
 
             $this->logger = new LogConfig();
+
+            if(is_null($_ENV['TEST_DB_SSLROOTCERT'])){
+                $_ENV['TEST_DB_SSLROOTCERT'] = '';
+            }
        
             // * Keys for Database:
             $this->dbParams = array(
@@ -39,7 +42,7 @@ class DatabaseTestConnection {
                 'host'        => (string) $_ENV['TEST_DB_HOST'],   
                 'port'        => (string) $_ENV['TEST_DB_PORT'],              
                 'sslmode'     => (string) $_ENV['TEST_DB_SSLMODE'], // * Options: disable, allow, prefer, require, verify-ca, verify-full
-                'sslrootcert' => (string) $_ENV['TEST_DB_SSLROOTCERT'], // * ssl_ca path, require for verify-ca or verify-full
+                'sslrootcert' => (string) $_ENV['TEST_DB_SSLROOTCERT'], // * ssl_ca path, required in verify-ca or verify-full
                 'charset'     => (string) $_ENV['TEST_DB_CHARSET'],
                 'driverOptions' => [
                     \PDO::ATTR_TIMEOUT => 5 // * Timeout for connection (in seconds)

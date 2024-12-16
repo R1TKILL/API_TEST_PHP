@@ -12,6 +12,7 @@ use Exception;
 class LogConfig { 
 
     // * Attributes:
+    private array $dict_ENV;
     private Logger $logger;
     private SendEmail $email;
 
@@ -19,11 +20,11 @@ class LogConfig {
     // * Construct:
     public function __construct() {
 
-        global $dict_ENV;
+        $this->dict_ENV = require 'app/Helpers/LoadEnvironments.php';
         $this->email = new SendEmail();
         $this->logger = new Logger('app');
         $this->logger->pushHandler(
-            ($dict_ENV['ENV_MODE'] == 'production') 
+            ($this->dict_ENV['ENV_MODE'] == 'production') 
                 ? new RotatingFileHandler(__DIR__ . "/../../../app/Logs/app.log", 180, $this->logger::ERROR) 
                 : new RotatingFileHandler(__DIR__ . "/../../../app/Logs/app.log", 180, $this->logger::DEBUG)
         );
@@ -33,8 +34,6 @@ class LogConfig {
 
     // * Methods:
     public function alertDevTeam(string $type, string $message, string $error_line, string $date_time, string $detailedMessage): void {
-
-        global $dict_ENV;
 
         try {
 
@@ -52,7 +51,7 @@ class LogConfig {
                 $body_email
             );
     
-            $this->email->send_email($dict_ENV['SMTP_DEV_TEAM'], 'Alerta da API PHP', $body_email);
+            $this->email->send_email($this->dict_ENV['SMTP_DEV_TEAM'], 'Alerta da API PHP', $body_email);
 
         } catch (Exception $ex) {
             $this->appLogMsg('ERROR', $ex->getMessage());

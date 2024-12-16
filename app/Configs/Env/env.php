@@ -16,7 +16,7 @@ $dict_ENV = [];
 // * Loads the variables according to the environment.
 if ($modeApplication == 'test') {
     $dict_ENV = [
-        'ENV_MODE' => getenv('APP_ENV'),
+        'ENV_MODE' => $modeApplication,
         'ORIGIN_ADDRESS' => $_ENV['TEST_ORIGIN_ADDRESS'],
         'HOST' => $_ENV['TEST_HOST'],
         'PORT' => $_ENV['TEST_PORT'],
@@ -31,6 +31,7 @@ if ($modeApplication == 'test') {
         'DB_SSLMODE' => $_ENV['TEST_DB_SSLMODE'],
         'DB_SSLROOTCERT' => $_ENV['TEST_DB_SSLROOTCERT'],
         'DB_CHARSET' => $_ENV['TEST_DB_CHARSET'],
+        'DB_DEVMODE' => $_ENV['TEST_DB_DEVMODE'],
         'SMTP_HOST' => $_ENV['SMTP_HOST'],
         'SMTP_DEV_TEAM' => $_ENV['SMTP_DEV_TEAM'],
         'SMTP_SENDER' => $_ENV['SMTP_SENDER'],
@@ -39,7 +40,7 @@ if ($modeApplication == 'test') {
     ];
 } elseif ($modeApplication == 'development') {
     $dict_ENV = [
-        'ENV_MODE' => getenv('APP_ENV'),
+        'ENV_MODE' => $modeApplication,
         'ORIGIN_ADDRESS' => $_ENV['DEV_ORIGIN_ADDRESS'],
         'HOST' => $_ENV['DEV_HOST'],
         'PORT' => $_ENV['DEV_PORT'],
@@ -54,6 +55,7 @@ if ($modeApplication == 'test') {
         'DB_SSLMODE' => $_ENV['DEV_DB_SSLMODE'],
         'DB_SSLROOTCERT' => $_ENV['DEV_DB_SSLROOTCERT'],
         'DB_CHARSET' => $_ENV['DEV_DB_CHARSET'],
+        'DB_DEVMODE' => $_ENV['DEV_DB_DEVMODE'],
         'SMTP_HOST' => $_ENV['SMTP_HOST'],
         'SMTP_DEV_TEAM' => $_ENV['SMTP_DEV_TEAM'],
         'SMTP_SENDER' => $_ENV['SMTP_SENDER'],
@@ -62,7 +64,7 @@ if ($modeApplication == 'test') {
     ];
 } else { // * Ambient of Production
     $dict_ENV = [
-        'ENV_MODE' => getenv('APP_ENV'),
+        'ENV_MODE' => $modeApplication,
         'ORIGIN_ADDRESS' => $_ENV['PROD_ORIGIN_ADDRESS'],
         'HOST' => $_ENV['PROD_HOST'],
         'PORT' => $_ENV['PROD_PORT'],
@@ -77,6 +79,7 @@ if ($modeApplication == 'test') {
         'DB_SSLMODE' => $_ENV['PROD_DB_SSLMODE'],
         'DB_SSLROOTCERT' => $_ENV['PROD_DB_SSLROOTCERT'],
         'DB_CHARSET' => $_ENV['PROD_DB_CHARSET'],
+        'DB_DEVMODE' => $_ENV['PROD_DB_DEVMODE'],
         'SMTP_HOST' => $_ENV['SMTP_HOST'],
         'SMTP_DEV_TEAM' => $_ENV['SMTP_DEV_TEAM'],
         'SMTP_SENDER' => $_ENV['SMTP_SENDER'],

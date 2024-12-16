@@ -1,1 +1,78 @@
-# * Rotina de testes, deve executar todos e verificar se todos passam para executar o script de deploy.
+# * Test routine, must run all tests and verify that they were all approved to execute the deployment script.
+
+name: CI Workflow for SlimPHP API
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+
+      mysql:
+        image: mysql:8
+        env:
+          MYSQL_ROOT_PASSWORD: ${{ secrets.TEST_DB_PASS }}
+          MYSQL_DATABASE: ${{ secrets.TEST_DB_NAME }}
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping --silent" --health-interval=10s --health-timeout=5s --health-retries=5
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    # * 2 => Config the PHP and Composer:
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '^8.2'
+        extensions: mbstring, pdo, json
+        coverage: xdebug # For coverage reports (optional)
+
+    - name: Install Dependencies
+      run: composer install --prefer-dist --no-progress --no-suggest
+
+    - name: Setup Environments
+      run: |
+        # * Environments for ambient of test:
+        echo "TEST_ORIGIN_ADDRESS=${{ secrets.TEST_ORIGIN_ADDRESS }}" >> .env
+        echo "TEST_HOST=${{ secrets.TEST_HOST }}" >> .env
+        echo "TEST_PORT=${{ secrets.TEST_PORT }}" >> .env
+        echo "TEST_DEBUG_MODE=${{ secrets.TEST_DEBUG_MODE }}" >> .env
+
+        # * Environments for database test:
+        echo "TEST_DB_DIALECT=${{ secrets.TEST_DB_DIALECT }}" >> .env
+        echo "TEST_DB_USER=${{ secrets.TEST_DB_USER }}" >> .env
+        echo "TEST_DB_PASS=${{ secrets.TEST_DB_PASS }}" >> .env
+        echo "TEST_DB_NAME=${{ secrets.TEST_DB_NAME }}" >> .env
+        echo "TEST_DB_HOST=${{ secrets.TEST_DB_HOST }}" >> .env
+        echo "TEST_DB_PORT=${{ secrets.TEST_DB_PORT }}" >> .env
+        echo "TEST_DB_SSLMODE=${{ secrets.TEST_DB_SSLMODE }}" >> .env
+        echo "TEST_DB_SSLROOTCERT=${{ secrets.TEST_DB_SSLROOTCERT }}" >> .env
+        echo "TEST_DB_CHARSET=${{ secrets.TEST_DB_CHARSET }}" >> .env
+        echo "TEST_DB_DEVMODE=${{ secrets.TEST_DB_DEVMODE }}" >> .env
+        
+        # * Others commons environments for all ambients:
+        echo "URL_API_PREFIX=${{ secrets.URL_API_PREFIX }}" >> .env
+
+        # * Keys for SMTP:
+        echo "SMTP_HOST=${{ secrets.SMTP_HOST }}" >> .env
+        echo "SMTP_DEV_TEAM=${{ secrets.SMTP_DEV_TEAM }}" >> .env
+        echo "SMTP_SENDER=${{ secrets.SMTP_SENDER }}" >> .env
+        echo "SMTP_PASS=${{ secrets.SMTP_PASS }}" >> .env
+        echo "SMTP_PORT=${{ secrets.SMTP_PORT }}" >> .env
+
+    - name: Run Migrations
+      run: composer run migration:test
+
+    - name: Run All Tests
+      run: composer run test:all

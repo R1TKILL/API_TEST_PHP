@@ -149,6 +149,7 @@ class PessoaIntegrationTest extends TestCase {
         $this->entityManager->persist($pessoa);
         $this->entityManager->flush();
 
+        // * Removing:
         $pessoaId = $pessoa->getId();
         $this->entityManager->remove($pessoa);
         $this->entityManager->flush();

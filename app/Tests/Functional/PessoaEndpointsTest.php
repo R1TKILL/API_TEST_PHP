@@ -5,9 +5,9 @@ declare(strict_types=1);
 use App\Database\DatabaseTestConnection;
 use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\EntityManager;
-use PHPUnit\Framework\TestCase;
+use App\Helpers\ServerTestManager;
 
-class PessoaEndpointsTest extends TestCase {
+class PessoaEndpointsTest extends ServerTestManager {
 
     private array $env;
     private string $host;
@@ -16,22 +16,6 @@ class PessoaEndpointsTest extends TestCase {
     private string $baseUrl;
     private DatabaseTestConnection $databaseConnection;
     private EntityManager $entityManager;
-
-    protected static $serverProcess;
-    
-    // * Config for start the server before of tests.
-    public static function setUpBeforeClass(): void {
-        self::$serverProcess = proc_open("composer run start:test", [], $pipes);
-    }
-
-
-    // * Config for end the server after of tests.
-    public static function tearDownAfterClass(): void {
-        if (self::$serverProcess) {
-            proc_terminate(self::$serverProcess);
-        }
-    }
-
 
     // * Config the params for url.
     protected function setUp(): void {
@@ -151,39 +135,33 @@ class PessoaEndpointsTest extends TestCase {
     // * Method for do making HTTP requests.
     private function makeRequest(string $method, string $url, string $payload = null): array {
 
-        if (self::$serverProcess) {
+        $ch = curl_init();
 
-            $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
 
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $method);
-
-            if ($payload) {
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-                curl_setopt($ch, CURLOPT_HTTPHEADER, [
-                    'Content-Type: application/json',
-                    'Content-Length: ' . strlen($payload)
-                ]);
-            }
-
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-            echo "\nMetodo => $method\n";
-            curl_setopt($ch, CURLOPT_VERBOSE, true);
-            echo "\n";
-
-            $response = curl_exec($ch);
-            $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-            curl_close($ch);
-
-            return [
-                'http_code' => $httpCode,
-                'body' => $response,
-            ];
-
+        if ($payload) {
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, [
+                'Content-Type: application/json',
+                'Content-Length: ' . strlen($payload)
+            ]);
         }
 
-        echo "\n\nSERVER NOT STARTED!!!\n\n";
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+        echo "\nMetodo => $method\n";
+        curl_setopt($ch, CURLOPT_VERBOSE, true);
+        echo "\n";
+
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        return [
+            'http_code' => $httpCode,
+            'body' => $response,
+        ];
 
     }
 
