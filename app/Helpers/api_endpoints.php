@@ -39,7 +39,9 @@ return [
             'description' => 'Atualiza um usuário existente.',
             'payload' => [
                 'name' => 'Updated Name',
+                'age' => 35,
                 'email' => 'updated@example.com',
+                'cell' => '5547937290140'
             ],
         ],
         [
