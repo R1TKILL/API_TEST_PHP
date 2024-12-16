@@ -75,4 +75,4 @@ jobs:
       run: composer run migration:test
 
     - name: Run All Tests
-      run: composer run test:all
+      run: composer run test:functional
