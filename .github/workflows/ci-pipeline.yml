@@ -71,11 +71,11 @@ jobs:
         echo "SMTP_PASS=${{ secrets.SMTP_PASS }}" >> .env
         echo "SMTP_PORT=${{ secrets.SMTP_PORT }}" >> .env
 
+    - name: Run
+      run: composer run start:test
+
     - name: Run Migrations
       run: composer run migration:test
-
-    - name: Dump Autoload
-      run: composer dump-autoload
 
     - name: Run All Tests
       run: composer run test:all
