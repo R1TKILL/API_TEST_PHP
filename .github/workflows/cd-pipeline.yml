@@ -15,6 +15,8 @@ jobs:
     steps:
     - name: Checkout Code
       uses: actions/checkout@v3
+      with:
+        ref: main
 
     - name: Set up AWS CLI
       uses: aws-actions/configure-aws-credentials@v1
@@ -43,8 +45,8 @@ jobs:
           fi
 
           # * Continue the deploy
-          cd /var/www/html/
-          git clone
+          cd /var/www/html
+          git clone https://github.com/R1TKILL/API_TEST_PHP.git
           cd /API_TEST_PHP
           composer run base:prod
           composer run migration:prod
@@ -57,5 +59,5 @@ jobs:
 
     - name: Verify Deployment
       run: |
-        curl -f http://${{ secrets.PROD_HOST }} || exit 1
+        curl -f http://${{ secrets.PROD_HOST }}/api/pessoa/items || exit 1
 
