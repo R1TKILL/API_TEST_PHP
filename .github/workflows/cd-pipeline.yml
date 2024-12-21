@@ -2,7 +2,8 @@
 
 name: CD Pipeline
 
-on: # * Runs only after the CI script finishes with success status.
+# * Runs only after the CI script finishes with success status.
+on:
   workflow_run:
     workflows: ["CI Pipeline"] 
     types:
