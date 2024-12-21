@@ -6,7 +6,7 @@ on: # * Runs only after the CI script finishes with success status.
   workflow_run:
     workflows: ["CI Pipeline"] 
     types:
-      - success 
+      if: ${{ github.event.workflow_run.conclusion == 'success' }} 
 
 jobs:
   deploy:
