@@ -43,7 +43,7 @@ jobs:
           fi
 
           # * Continue the deploy
-          cd /var/www/html/API_TEST_PHP/app/public
+          cd /var/www/html/
           git clone
           cd /API_TEST_PHP
           composer run base:prod
