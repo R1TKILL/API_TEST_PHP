@@ -9,3 +9,4 @@ app/Tests/Performance/Reports/
 *.log
 .phpunit.result.cache
 tasks.txt
+nginx.conf

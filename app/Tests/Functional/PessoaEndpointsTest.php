@@ -7,7 +7,7 @@ use Doctrine\ORM\Tools\SchemaTool;
 use Doctrine\ORM\EntityManager;
 use App\Helpers\ServerTestManager;
 
-// ! Funciona perfeitamente, descobrir porque no github_actions não encontra a dependency_injection na rota.
+// ! Funciona perfeitamente, já no github_actions em testPostEndpoint não encontra a dependency_injection na rota.
 class PessoaEndpointsTest extends ServerTestManager {
 
     private array $env;

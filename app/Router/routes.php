@@ -7,6 +7,7 @@ use App\configLogs\LogConfig;
 
 $apiPrefix = (string) $dict_ENV['PREFIX_API'] ?: '/api';
 $logger = new LogConfig();
+
 $ctns = new Containers();
 $ctns->setContainers();
 

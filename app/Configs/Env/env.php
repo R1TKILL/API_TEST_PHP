@@ -62,6 +62,30 @@ if ($modeApplication == 'test') {
         'SMTP_PASS' => $_ENV['SMTP_PASS'],
         'SMTP_PORT' => $_ENV['SMTP_PORT']
     ];
+} elseif ($modeApplication == 'homologation') {
+    $dict_ENV = [
+        'ENV_MODE' => $modeApplication,
+        'ORIGIN_ADDRESS' => $_ENV['HOMOLOG_ORIGIN_ADDRESS'],
+        'HOST' => $_ENV['HOMOLOG_HOST'],
+        'PORT' => $_ENV['HOMOLOG_PORT'],
+        'DEBUG_MODE' => $_ENV['HOMOLOG_DEBUG_MODE'],
+        'PREFIX_API' => $_ENV['URL_API_PREFIX'],
+        'DB_DIALECT' => $_ENV['HOMOLOG_DB_DIALECT'],
+        'DB_USER' => $_ENV['HOMOLOG_DB_USER'],
+        'DB_PASS' => $_ENV['HOMOLOG_DB_PASS'],
+        'DB_NAME' => $_ENV['HOMOLOG_DB_NAME'],
+        'DB_HOST' => $_ENV['HOMOLOG_DB_HOST'],
+        'DB_PORT' => $_ENV['HOMOLOG_DB_PORT'],
+        'DB_SSLMODE' => $_ENV['HOMOLOG_DB_SSLMODE'],
+        'DB_SSLROOTCERT' => $_ENV['HOMOLOG_DB_SSLROOTCERT'],
+        'DB_CHARSET' => $_ENV['HOMOLOG_DB_CHARSET'],
+        'DB_DEVMODE' => $_ENV['HOMOLOG_DB_DEVMODE'],
+        'SMTP_HOST' => $_ENV['SMTP_HOST'],
+        'SMTP_DEV_TEAM' => $_ENV['SMTP_DEV_TEAM'],
+        'SMTP_SENDER' => $_ENV['SMTP_SENDER'],
+        'SMTP_PASS' => $_ENV['SMTP_PASS'],
+        'SMTP_PORT' => $_ENV['SMTP_PORT']
+    ];
 } else { // * Ambient of Production
     $dict_ENV = [
         'ENV_MODE' => $modeApplication,

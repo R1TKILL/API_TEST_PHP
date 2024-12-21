@@ -1,1 +1,61 @@
-# * Script para atualizar o código no git e na AWS EC2 ubuntu
+# * Script to update code on AWS EC2 ubuntu, executed only if CI has success status, script of continuous deploy.
+
+name: CD Pipeline
+
+on: # * Runs only after the CI script finishes with success status.
+  workflow_run:
+    workflows: ["CI Pipeline"] 
+    types:
+      - success 
+
+jobs:
+  deploy:
+    runs-on: ubuntu-24.04  
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Set up AWS CLI
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_IAM_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_IAM_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_REGION }}
+
+    - name: SSH to EC2 Instance
+      uses: appleboy/ssh-action@v0.1.5
+      with:
+        host: ${{ secrets.PROD_HOST }}
+        username: ${{ secrets.AWS_UBUNTU_USER }}
+        key: ${{ secrets.AWS_SSH_PRIVATE_KEY }}
+        port: 22
+        script: |
+
+          # * Verify that composer is installed on the AWS instance.
+          if ! command -v composer &> /dev/null
+          then
+              echo "\n\n *** Composer não encontrado. Instalando.. ***\n\n."
+              curl -sS https://getcomposer.org/installer | php
+              sudo mv composer.phar /usr/local/bin/composer
+          else
+              echo "\n\n *** Composer já está instalado! *** \n\n"
+          fi
+
+          # * Continue the deploy
+          cd /var/www/html/API_TEST_PHP/app/public
+          git clone
+          cd /API_TEST_PHP
+          composer run base:prod
+          composer run migration:prod
+
+          # * Restart the PHP-FPM:
+          sudo systemctl restart php8.2-fpm
+
+          # * Restart the NGINX:
+          sudo systemctl restart nginx
+
+    - name: Verify Deployment
+      run: |
+        curl -f http://${{ secrets.PROD_HOST }} || exit 1
+
