@@ -19,14 +19,14 @@ jobs:
       with:
         ref: main
 
-    - name: Set up AWS CLI
+    - name: Access AWS CLI
       uses: aws-actions/configure-aws-credentials@v1
       with:
         aws-access-key-id: ${{ secrets.AWS_IAM_ACCESS_KEY_ID }}
         aws-secret-access-key: ${{ secrets.AWS_IAM_SECRET_ACCESS_KEY }}
         aws-region: ${{ secrets.AWS_REGION }}
 
-    - name: SSH to EC2 Instance
+    - name: Access with SSH to EC2 Instance
       uses: appleboy/ssh-action@v0.1.5
       with:
         host: ${{ secrets.PROD_HOST }}
