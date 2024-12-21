@@ -34,26 +34,27 @@ jobs:
         key: ${{ secrets.AWS_SSH_PRIVATE_KEY }}
         port: 22
 
-    - name: Access the folder of projects and Cloning the repository of project
-      run: | 
-        cd /var/www/html
-        sudo git clone https://github.com/R1TKILL/API_TEST_PHP.git
-
-    - name: Access the folder of API and Config the project
-      run: | 
-        cd /var/www/html/API_TEST_PHP
-        composer run base:prod
-        composer run migration:prod
-
-    - name: Restart the NGINX and PHP-FPM
-      run: |
-        sudo systemctl restart nginx
-        sudo systemctl restart php8.2-fpm
-
-    # - name: Check the folders
+    # - name: Access the folder of projects and Cloning the repository of project
     #   run: | 
     #     cd /var/www/html
-    #     ls
-    #     ls -a
-    #     ls -lha
+    #     sudo git clone https://github.com/R1TKILL/API_TEST_PHP.git
+
+    # - name: Access the folder of API and Config the project
+    #   run: | 
+    #     cd /var/www/html/API_TEST_PHP
+    #     composer run base:prod
+    #     composer run migration:prod
+
+    # - name: Restart the NGINX and PHP-FPM
+    #   run: |
+    #     sudo systemctl restart php8.2-fpm
+    #     sudo systemctl restart nginx
+
+    - name: Check the folders
+      run: | 
+        cd /var/www/html
+        ls
+        ls -a
+        ls -lha
+        ip a
 
