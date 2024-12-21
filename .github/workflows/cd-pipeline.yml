@@ -29,31 +29,31 @@ jobs:
     - name: Access with SSH to EC2 Instance
       uses: appleboy/ssh-action@v0.1.5
       with:
-        host: ${{ secrets.PROD_HOST }}
+        host: ${{ secrets.AWS_EC2_HOST }}
         username: ${{ secrets.AWS_UBUNTU_USER }}
         key: ${{ secrets.AWS_SSH_PRIVATE_KEY }}
         port: 22
 
-    - name: Check the folders
+    - name: Access the folder of projects and Cloning the repository of project
       run: | 
         cd /var/www/html
-        ls
-        ls -a
-        ls -lha
+        sudo git clone https://github.com/R1TKILL/API_TEST_PHP.git
 
-    # - name: Access the folder of projects and Cloning the repository of project
+    - name: Access the folder of API and Config the project
+      run: | 
+        cd /var/www/html/API_TEST_PHP
+        composer run base:prod
+        composer run migration:prod
+
+    - name: Restart the NGINX and PHP-FPM
+      run: |
+        sudo systemctl restart php8.2-fpm
+        sudo systemctl restart nginx
+
+    # - name: Check the folders
     #   run: | 
     #     cd /var/www/html
-    #     sudo git clone https://github.com/R1TKILL/API_TEST_PHP.git
-
-    # - name: Access the folder of API and Config the project
-    #   run: | 
-    #     cd /var/www/html/API_TEST_PHP
-    #     composer run base:prod
-    #     composer run migration:prod
-
-    # - name: Restart the NGINX and PHP-FPM
-    #   run: |
-    #     sudo systemctl restart php8.2-fpm
-    #     sudo systemctl restart nginx
+    #     ls
+    #     ls -a
+    #     ls -lha
 
