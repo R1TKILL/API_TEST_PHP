@@ -47,8 +47,8 @@ jobs:
 
     - name: Restart the NGINX and PHP-FPM
       run: |
-        sudo systemctl restart php8.2-fpm
         sudo systemctl restart nginx
+        sudo systemctl restart php8.2-fpm
 
     # - name: Check the folders
     #   run: | 
