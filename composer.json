@@ -46,7 +46,8 @@
     },
     "scripts": {
         "base": ["rm -rf vendor/", "cp .env.example .env", "composer install"],
-        "base:prod": ["rm -rf vendor/", "sudo cp .env.example .env", "composer install --prefer-dist --no-progress --no-suggest"],
+        "base:prod": ["sudo cp .env.example .env", "composer install --prefer-dist --no-progress --no-suggest"],
+        "rebase:prod": ["rm -rf vendor/", "sudo cp .env.example .env", "composer install --prefer-dist --no-progress --no-suggest"],
         
         "migration:test": "php -r \"putenv('APP_ENV=test'); passthru('php vendor/bin/doctrine-migrations migrations:migrate');\"",
         "migration:dev": "php -r \"putenv('APP_ENV=development'); passthru('php vendor/bin/doctrine-migrations migrations:migrate');\"",
