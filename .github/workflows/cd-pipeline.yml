@@ -33,30 +33,22 @@ jobs:
         username: ${{ secrets.AWS_UBUNTU_USER }}
         key: ${{ secrets.AWS_SSH_PRIVATE_KEY }}
         port: 22
-        script: |
 
-          # * Verify that composer is installed on the AWS instance.
-          if ! command -v composer &> /dev/null
-          then
-              echo "\n\n *** Composer não encontrado. Instalando.. ***\n\n."
-              curl -sS https://getcomposer.org/installer | php
-              sudo mv composer.phar /usr/local/bin/composer
-          else
-              echo "\n\n *** Composer já está instalado! *** \n\n"
-          fi
+    - name: Access the folder of projects and Cloning the repository of project
+      run: | 
+        cd /var/www/html
+        git clone https://github.com/R1TKILL/API_TEST_PHP.git   
 
-          # * Continue the deploy
-          cd /var/www/html
-          git clone https://github.com/R1TKILL/API_TEST_PHP.git
-          cd /API_TEST_PHP
-          composer run base:prod
-          composer run migration:prod
+    - name: Access the folder of API and Config the project
+      run: | 
+        cd /var/www/html/API_TEST_PHP
+        composer run base:prod
+        composer run migration:prod
 
-          # * Restart the PHP-FPM:
-          sudo systemctl restart php8.2-fpm
-
-          # * Restart the NGINX:
-          sudo systemctl restart nginx
+    - name: Restart the NGINX and PHP-FPM
+      run: |
+        sudo systemctl restart php8.2-fpm
+        sudo systemctl restart nginx
 
     - name: Verify Deployment
       run: |
