@@ -42,6 +42,8 @@ jobs:
     - name: Access the folder of API and Config the project
       run: | 
         cd /var/www/html/API_TEST_PHP
+        sudo chown -R ${{ secrets.AWS_UBUNTU_USER }}:${{ secrets.AWS_UBUNTU_USER }} /var/www/html/API_TEST_PHP
+        sudo chmod -R 755 /var/www/html/API_TEST_PHP
         composer run base:prod
         composer run migration:prod
 
