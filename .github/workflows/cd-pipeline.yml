@@ -34,23 +34,26 @@ jobs:
         key: ${{ secrets.AWS_SSH_PRIVATE_KEY }}
         port: 22
 
-    - name: Access the folder of projects and Cloning the repository of project
+    - name: Check the folders
       run: | 
         cd /var/www/html
-        sudo git clone https://github.com/R1TKILL/API_TEST_PHP.git
+        ls
+        ls -a
+        ls -lha
 
-    - name: Access the folder of API and Config the project
-      run: | 
-        cd /var/www/html/API_TEST_PHP
-        composer run base:prod
-        composer run migration:prod
+    # - name: Access the folder of projects and Cloning the repository of project
+    #   run: | 
+    #     cd /var/www/html
+    #     sudo git clone https://github.com/R1TKILL/API_TEST_PHP.git
 
-    - name: Restart the NGINX and PHP-FPM
-      run: |
-        sudo systemctl restart php8.2-fpm
-        sudo systemctl restart nginx
+    # - name: Access the folder of API and Config the project
+    #   run: | 
+    #     cd /var/www/html/API_TEST_PHP
+    #     composer run base:prod
+    #     composer run migration:prod
 
-    - name: Verify Deployment
-      run: |
-        curl -f http://${{ secrets.PROD_HOST }}/api/pessoa/items || exit 1
+    # - name: Restart the NGINX and PHP-FPM
+    #   run: |
+    #     sudo systemctl restart php8.2-fpm
+    #     sudo systemctl restart nginx
 
