@@ -2,13 +2,13 @@
 
 require './app/Configs/Env/env.php';
 
-use App\ContainersDI\Containers;
+use App\ContainersDI\DIContainers;
 use App\configLogs\LogConfig;
 
 $apiPrefix = (string) $dict_ENV['PREFIX_API'] ?: '/api';
 $logger = new LogConfig();
 
-$ctns = new Containers();
+$ctns = new DIContainers();
 $ctns->setContainers();
 
 return function ($app) use ($apiPrefix, $ctns, $logger) {

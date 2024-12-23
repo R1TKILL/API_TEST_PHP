@@ -14,7 +14,7 @@ use App\Database\DatabaseConnection;
 use App\Controllers\PessoaController;
 use Exception;
 
-class Containers {
+class DIContainers {
 
     private Container $container;
     private LogConfig $logger;
