@@ -91,7 +91,7 @@ class PessoaDAO implements IEntityRepository {
     }
 
 
-    public function save(object $pessoaDTO) {
+    public function save(object $pessoaDTO): bool {
 
         if (!$pessoaDTO instanceof PessoaDTO) {
             throw new \InvalidArgumentException("Expected an instance of PessoaDTO.");
@@ -108,12 +108,15 @@ class PessoaDAO implements IEntityRepository {
             $this->entityManager->persist($this->pessoaModel);
             $this->entityManager->flush();
             $this->entityManager->commit();
+            return true;
 
         } catch(Exception $ex) {
             $this->logger->appLogMsg('ERROR', 'Error in PessoaDAO->save, type error: ' . $ex->getMessage());
+            return false;
         } catch(DBALException $de) {
             $this->entityManager->rollback();
             $this->logger->appLogMsg('ERROR', 'Database error in PessoaDAO->save, type error: ' . $de->getMessage());
+            return false;
         }
 
     }

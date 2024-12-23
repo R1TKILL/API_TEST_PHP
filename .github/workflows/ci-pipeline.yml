@@ -76,10 +76,4 @@ jobs:
 
     - name: Run All Tests
       run: composer run test:all
-
-    # - name: Run Integration Tests
-    #   run: composer run test:integration
-
-    # - name: Run Performance Tests
-    #   run: composer run test:performance
       

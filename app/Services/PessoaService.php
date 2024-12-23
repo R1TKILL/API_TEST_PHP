@@ -93,8 +93,7 @@ class PessoaService {
             $this->pessoaDTO->email = $data['email'];
             $this->pessoaDTO->cell = $data['cell'];
 
-            $this->pessoaDAO->save($this->pessoaDTO);
-            return true;
+            return $this->pessoaDAO->save($this->pessoaDTO);
 
         } catch (Exception $ex) {
             $this->logger->appLogMsg('ERROR', 'Error in PessoaService->create, type error: ' . $ex->getMessage());
