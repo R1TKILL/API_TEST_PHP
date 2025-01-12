@@ -21,7 +21,7 @@ class PessoaEndpointsTest extends ServerTestManager {
     protected function setUp(): void {
 
         // * Load environments.
-        $this->env = require 'app/Helpers/LoadEnvironments.php';
+        $this->env = require __DIR__ . '/../app/Helpers/LoadEnvironments.php';
 
         // * Get the instance of database:
         $this->databaseConnection = new DatabaseTestConnection();

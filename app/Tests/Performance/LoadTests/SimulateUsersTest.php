@@ -11,14 +11,14 @@ class SimulateUsersTest extends ServerTestManager {
     public function testEndpointsPerformance() {
 
         $client = new Client();
-        $endpoints = require 'app/Helpers/api_endpoints.php';
+        $endpoints = require __DIR__ . '/../../../../app/Helpers/api_endpoints.php';
     
         // * Config of multiply users:
         $users = 50; // * Number of users.
         $requestsPerUser = 10; // * Numbers of requests by users.
     
         // * Open or create the file of report.
-        $logFile = 'app/Tests/Performance/Reports/load_test_report.md';
+        $logFile = '/../../../../app/Tests/Performance/Reports/load_test_report.md';
         file_put_contents($logFile, "# Load Test Report\n\n");
     
         foreach ($endpoints['endpoints'] as $endpoint) {

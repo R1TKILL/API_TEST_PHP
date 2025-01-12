@@ -1,9 +1,10 @@
 <?php
 
+declare(strict_types=1);
 namespace App\Database;
 
 require_once __DIR__ . "/../../../../vendor/autoload.php";
-require './app/Configs/Env/env.php';
+require __DIR__ . '/../../../../app/Configs/Env/env.php';
 
 use Doctrine\DBAL\DriverManager;
 use Doctrine\ORM\EntityManager;
@@ -50,7 +51,9 @@ class DatabaseTestConnection {
             );
     
             // * Config the metadata, devMode and Path for entities (Models):
-            $this->metadataConfig = ORMSetup::createAttributeMetadataConfiguration($this->paths = ['app/Models'], $this->isDevMode = true);
+            $this->metadataConfig = ORMSetup::createAttributeMetadataConfiguration(
+                $this->paths = [__DIR__ . '/../../Models'], $this->isDevMode = true
+            );
             $this->conn = DriverManager::getConnection($this->dbParams, $this->metadataConfig);
             $this->logger->appLogMsg('INFO', 'Connected in database for tests with success!');
 

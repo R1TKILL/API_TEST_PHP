@@ -1,8 +1,9 @@
 <?php 
 
+declare(strict_types=1);
 namespace App\SMTP;
 
-require './app/Configs/Env/env.php';
+require __DIR__ . '/../../../app/Configs/Env/env.php';
 
 use PHPMailer\PHPMailer\Exception as PHPMailerException;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -15,32 +16,33 @@ class SendEmail {
 
     // * Attributes:
     private PHPMailer $mail;
+    private array $dict_ENV;
 
 
     // * Constructor:
     public function __construct() {
         $this->mail = new PHPMailer(true);
+        $this->dict_ENV = require __DIR__ . '/../../../app/Helpers/LoadEnvironments.php';
     }
 
 
-    function send_email(string $to, string $subject_email, $body_email) {
+    function send_email(string $to, string $subject_email, mixed $body_email) {
 
-        global $dict_ENV;
-        global $logger; // obs: também poderia passar como dependecy_injection, ai resolve o b.o
+        global $logger; // obs: Também poderia passar como dependency_injection, ai o B.O é resolvido.
     
         try {
 
             // * Config SMTP server
             $this->mail->isSMTP();
-            $this->mail->Host = (string) $dict_ENV['SMTP_HOST'];
+            $this->mail->Host = (string) $this->dict_ENV['SMTP_HOST'];
             $this->mail->SMTPAuth = true;
-            $this->mail->Username = (string) $dict_ENV['SMTP_SENDER'];
-            $this->mail->Password = (string) $dict_ENV['SMTP_PASS']; // * The pass for low security app.
+            $this->mail->Username = (string) $this->dict_ENV['SMTP_SENDER'];
+            $this->mail->Password = (string) $this->dict_ENV['SMTP_PASS']; // * The pass for low security app.
             $this->mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-            $this->mail->Port = (int) $dict_ENV['SMTP_PORT'];
+            $this->mail->Port = (int) $this->dict_ENV['SMTP_PORT'];
     
             // * sender and email_destiny
-            $this->mail->setFrom($dict_ENV['SMTP_SENDER'], 'API_PHP_System');
+            $this->mail->setFrom($this->dict_ENV['SMTP_SENDER'], 'API_PHP_System');
             $this->mail->addAddress($to);
     
             // * Email content

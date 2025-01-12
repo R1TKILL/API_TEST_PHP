@@ -1,6 +1,6 @@
 <?php
 
-require './app/Configs/Env/env.php';
+require __DIR__ . '/../../app/Configs/Env/env.php';
 
 use App\configLogs\LogConfig;
 use Psr\Http\Message\ResponseInterface as Response;

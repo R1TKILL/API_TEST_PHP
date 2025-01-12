@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
 namespace App\configLogs;
 
-require './app/Configs/Env/env.php';
+require __DIR__ . '/../../../app/Configs/Env/env.php';
 
 use Monolog\Logger;
 use Monolog\Handler\RotatingFileHandler;
@@ -20,7 +21,7 @@ class LogConfig {
     // * Construct:
     public function __construct() {
 
-        $this->dict_ENV = require 'app/Helpers/LoadEnvironments.php';
+        $this->dict_ENV = require __DIR__ . '/../../../app/Helpers/LoadEnvironments.php';
         $this->email = new SendEmail();
         $this->logger = new Logger('app');
         $this->logger->pushHandler(
@@ -73,21 +74,21 @@ class LogConfig {
             $detailedMessage = "{$message} | File: {$file} | Line: {$line}";
 
             match ($type) {
-                // * Detalhes para depuração
+                // * Depuração: Detalhes para depuração.
                 'DEBUG' => $this->logger->debug($detailedMessage),
-                // * Informação sobre o processo
+                // * Informação: Informações sobre o processo.
                 'INFO' => $this->logger->info($detailedMessage),
-                // * Atenção: uso elevado de memória
+                // * Aviso: Uso elevado de memória.
                 'NOTICE' => $this->logger->notice($detailedMessage),
-                // * Aviso: possível problema de configuração
+                // * Perigo: possível problema de configuração.
                 'WARNING' => $this->logger->warning($detailedMessage),
-                // * Erro ao conectar ao banco de dados
+                // * Erro: Erro ao tentar conectar com o banco de dados.
                 'ERROR' => $this->alertDevTeam($type, $message, $line, $date_time, $detailedMessage),
-                // * Falha grave: serviço de autenticação inativo
+                // * Critico: serviço de autenticação inativo.
                 'CRITICAL' => $this->alertDevTeam($type, $message, $line, $date_time, $detailedMessage),
-                // * Alerta: falha de segurança detectada
+                // * Alerta: falha de segurança detectada.
                 'ALERT' => $this->logger->alert($detailedMessage),
-                // * Emergência: sistema inoperante
+                // * Emergência: sistema inoperante.
                 'EMERGENCY' => $this->logger->emergency($detailedMessage),
                 default => $this->logger->error($detailedMessage)
             };

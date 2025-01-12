@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 namespace App\Database;
 
 require_once __DIR__ . "/../../../../vendor/autoload.php";
@@ -27,7 +28,7 @@ class DatabaseConnection {
 
         try {
 
-            $this->dict_ENV = require 'app/Helpers/LoadEnvironments.php';
+            $this->dict_ENV = require __DIR__ . '/../../../../app/Helpers/LoadEnvironments.php';
             $this->logger = new LogConfig();
        
             // * Keys for Database:
@@ -48,7 +49,7 @@ class DatabaseConnection {
     
             // * Config the metadata, devMode and Path for entities (Models):
             $this->metadataConfig = ORMSetup::createAttributeMetadataConfiguration(
-                $this->paths = [__DIR__ . '/../../Models'], $this->isDevMode = $this->dict_ENV['DB_DEVMODE']
+                $this->paths = [__DIR__ . '/../../Models'], $this->isDevMode = (bool) $this->dict_ENV['DB_DEVMODE']
             );
             $this->conn = DriverManager::getConnection($this->dbParams, $this->metadataConfig);
             $this->logger->appLogMsg('INFO', 'Connected in database with success');

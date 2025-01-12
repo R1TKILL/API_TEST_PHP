@@ -13,7 +13,7 @@ class ResponseTimeTest extends ServerTestManager {
     protected function setUp(): void {
 
         // * Load configs of PHP file.
-        $this->settings = require 'app/Helpers/api_endpoints.php';
+        $this->settings = require __DIR__ . '/../../../../app/Helpers/api_endpoints.php';
 
         // * Create a cliente of Guzzle with base_url config.
         $this->client = new Client(['base_uri' => $this->settings['base_url']]);
@@ -24,7 +24,7 @@ class ResponseTimeTest extends ServerTestManager {
     public function testResponseTimes() {
 
         // * Define path report.
-        $reportPath = 'app/Tests/Performance/Reports/response_time_report.md';
+        $reportPath = '/../../../../app/Tests/Performance/Reports/response_time_report.md';
     
         // * Overwrite the file at the beginning and add the header.
         file_put_contents($reportPath, "# API Response Time Report\n\n");

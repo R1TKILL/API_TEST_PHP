@@ -3,7 +3,7 @@
 declare(strict_types=1);
 namespace App\Tests\Integration\ExternalServices;
 
-require './app/Configs/Env/env.php';
+require __DIR__ . '/../../../../app/Configs/Env/env.php';
 
 use PHPUnit\Framework\TestCase;
 use PHPMailer\PHPMailer\PHPMailer;

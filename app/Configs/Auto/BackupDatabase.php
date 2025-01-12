@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
 namespace App\Auto;
 
-require './app/Configs/Env/env.php';
+require __DIR__ . '/../../../app/Configs/Env/env.php';
 
 use App\configLogs\LogConfig;
 use Exception;
@@ -14,11 +15,13 @@ class BackupDatabase {
     private string $backupDir;
     private string $backupFile;
     private string $command;
+    private array $dict_ENV;
 
 
     // * Constructor:
     public function __construct() {
         $this->logger = new LogConfig();
+        $this->dict_ENV = require __DIR__ . '/../../../app/Helpers/LoadEnvironments.php';
         $this->executeBackup();
     }
 
@@ -28,14 +31,12 @@ class BackupDatabase {
 
         try{
 
-            global $dict_ENV;
-
             // * Path and name of backup file:
             $this->backupDir = __DIR__ . "/../../../app/Configs/Database/Backups";
-            $this->backupFile = $this->backupDir . $dict_ENV['DB_NAME'] . '_' . date('Y-m-d_H-i-s') . '.sql';
+            $this->backupFile = $this->backupDir . $this->dict_ENV['DB_NAME'] . '_' . date('Y-m-d_H-i-s') . '.sql';
 
             // * Backup command:
-            $this->command = ("PGPASSWORD=".$dict_ENV['DB_PASS']." pg_dump -U " . $dict_ENV['DB_USER'] . " -h " . $dict_ENV['DB_HOST'] . " -F c " . $dict_ENV['DB_NAME'] . " > $this->backupFile");
+            $this->command = ("PGPASSWORD=".$this->dict_ENV['DB_PASS']." pg_dump -U " . $this->dict_ENV['DB_USER'] . " -h " . $this->dict_ENV['DB_HOST'] . " -F c " . $this->dict_ENV['DB_NAME'] . " > $this->backupFile");
 
             // * Executing the backup:
             exec($this->command, $output, $resultCode);
