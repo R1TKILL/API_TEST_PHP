@@ -52,7 +52,7 @@ class DatabaseTestConnection {
     
             // * Config the metadata, devMode and Path for entities (Models):
             $this->metadataConfig = ORMSetup::createAttributeMetadataConfiguration(
-                $this->paths = [__DIR__ . '/../../Models'], $this->isDevMode = true
+                $this->paths = [__DIR__ . '/../../../Models'], $this->isDevMode = true
             );
             $this->conn = DriverManager::getConnection($this->dbParams, $this->metadataConfig);
             $this->logger->appLogMsg('INFO', 'Connected in database for tests with success!');
