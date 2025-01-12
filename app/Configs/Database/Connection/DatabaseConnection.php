@@ -49,7 +49,7 @@ class DatabaseConnection {
     
             // * Config the metadata, devMode and Path for entities (Models):
             $this->metadataConfig = ORMSetup::createAttributeMetadataConfiguration(
-                $this->paths = [__DIR__ . '/../../Models'], $this->isDevMode = (bool) $this->dict_ENV['DB_DEVMODE']
+                $this->paths = [__DIR__ . '/../../../Models'], $this->isDevMode = (bool) $this->dict_ENV['DB_DEVMODE']
             );
             $this->conn = DriverManager::getConnection($this->dbParams, $this->metadataConfig);
             $this->logger->appLogMsg('INFO', 'Connected in database with success');
