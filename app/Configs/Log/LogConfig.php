@@ -34,7 +34,7 @@ class LogConfig {
 
 
     // * Methods:
-    public function alertDevTeam(string $type, string $message, string $error_line, string $date_time, string $detailedMessage): void {
+    public function alertDevTeam(string $type, string $message, int $error_line, string $date_time, string $detailedMessage): void {
 
         try {
 
