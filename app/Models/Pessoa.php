@@ -4,9 +4,11 @@ declare(strict_types=1);
 namespace App\Models;
 
 use Doctrine\ORM\Mapping as ORM;
+use DateTime;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'pessoa')]
+#[ORM\HasLifecycleCallbacks] // * Enables lifecycle events.
 class Pessoa {
 
     #[ORM\Id]
@@ -25,6 +27,9 @@ class Pessoa {
 
     #[ORM\Column(type: 'string', length: 13, nullable: false)]
     private $cell;
+
+    #[ORM\Column(type: 'datetime', nullable: false, options: ['default' => 'CURRENT_TIMESTAMP'])]
+    private $updated_at;
 
 
     // * Getter for ID:
@@ -80,4 +85,32 @@ class Pessoa {
     {
         $this->cell = $cell;
     }
+
+
+    // * Getter and Setter for Updated_at:
+    public function getUpdatedAt(): DateTime
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(DateTime $updated_at): void
+    {
+        $this->updated_at = $updated_at;
+    }
+
+
+    // * Lifecycle event for automatically updates the updatedAt field when creating a new record.
+    #[ORM\PrePersist]
+    protected function onPrePersist(): void
+    {
+        $this->updated_at = new DateTime('now');
+    }
+
+    // * Lifecycle event for automatically updates the updatedAt field when modifying an existing record.
+    #[ORM\PreUpdate]
+    protected function onPreUpdate(): void
+    {
+        $this->updated_at = new DateTime('now');
+    }
+
 }
