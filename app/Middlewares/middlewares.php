@@ -15,7 +15,7 @@ return function ($app) use ($CORS_Origin, $logger) {
         try {
 
             $cacheKey = 'cache_people_list';
-            $cacheDuration = 10; // * 15 minutes.
+            $cacheDuration = 900; // * 15 minutes.
             $currentTime = time();
             
             session_start();
