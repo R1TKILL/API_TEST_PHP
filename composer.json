@@ -46,8 +46,8 @@
     },
     "scripts": {
         "base": ["rm -rf vendor/", "composer install"],
-        "base:prod": ["sudo composer install --prefer-dist --no-progress --no-suggest"],
-        "rebase:prod": ["rm -rf vendor/", "composer install --prefer-dist --no-progress --no-suggest"],
+        "base:prod": ["sudo composer install --prefer-dist --no-progress --no-suggest --no-dev --optimize-autoloader"],
+        "rebase:prod": ["rm -rf vendor/", "composer install --prefer-dist --no-progress --no-suggest --no-dev --optimize-autoloader"],
         
         "migration:test": "php -r \"putenv('APP_ENV=test'); passthru('php vendor/bin/doctrine-migrations migrations:migrate');\"",
         "migration:dev": "php -r \"putenv('APP_ENV=development'); passthru('php vendor/bin/doctrine-migrations migrations:migrate');\"",
