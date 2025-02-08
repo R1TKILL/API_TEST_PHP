@@ -10,7 +10,7 @@ $dotenv = Dotenv::createImmutable($envPath);
 $dotenv->load();
 
 // * Define the ambient (test, development or production)
-$modeApplication = getenv('APP_ENV') ?: 'production';
+$modeApplication = getenv('APP_ENV') ?: 'development';
 $dict_ENV = [];
 
 // * Loads the variables according to the environment.
