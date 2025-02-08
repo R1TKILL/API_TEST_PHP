@@ -2,13 +2,14 @@
 
 ### in case of file migration.php in root folder, contains other name, insert the param: --configuration=name_file.php 
 
-* generate migration:
+* generate blank migration:
 
 ```bash 
     
     $ vendor/bin/doctrine-migrations migrations:generate    
 
 ```
+
 
 * list migrates:
 
@@ -17,6 +18,7 @@
     $ vendor/bin/doctrine-migrations migrations:list  
 
 ```
+
 
 * status migrates:
 
@@ -35,6 +37,7 @@
 
 ```
 
+
 * specific migrate:
 
 ```bash 
@@ -42,6 +45,7 @@
     $ vendor/bin/doctrine-migrations migrations:migrate <version>
 
 ```
+
 
 * rollback:
 
