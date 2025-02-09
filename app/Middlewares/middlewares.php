@@ -3,6 +3,7 @@
 require __DIR__ . '/../../app/Configs/Env/env.php';
 
 use App\configLogs\LogConfig;
+use App\Middlewares\SessionMiddleware;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Server\RequestHandlerInterface as RequestHandler;
@@ -14,11 +15,11 @@ return function ($app) use ($CORS_Origin, $logger) {
     $app->add(function (Request $request, RequestHandler $handler) use ($CORS_Origin, $logger): Response {
         try {
 
+            new SessionMiddleware($request, $handler);
+            
             $cacheKey = 'cache_people_list';
             $cacheDuration = 900; // * 15 minutes.
             $currentTime = time();
-            
-            session_start();
             $_SESSION['cache'] = $_SESSION['cache'] ?? [];
             $cacheAge = ($currentTime - $_SESSION['cache'][$cacheKey]['timestamp']);
 

@@ -29,6 +29,7 @@
     "autoload": {
         "psr-4": {
             "App\\": "app/",
+            "App\\Middlewares\\": "app/Middlewares",
             "App\\Migrations\\": "app/Configs/Database/Migrations",
             "App\\Controllers\\": "app/Controllers",
             "App\\Services\\": "app/Services",
@@ -49,6 +50,8 @@
         "base:prod": ["sudo composer install --prefer-dist --no-progress --no-suggest --no-dev --optimize-autoloader"],
         "rebase:prod": ["rm -rf vendor/", "composer install --prefer-dist --no-progress --no-suggest --no-dev --optimize-autoloader"],
         
+        "update:autoload": "composer dump-autoload --optimize",
+
         "migration:test": "php -r \"putenv('APP_ENV=test'); passthru('php vendor/bin/doctrine-migrations migrations:migrate');\"",
         "migration:dev": "php -r \"putenv('APP_ENV=development'); passthru('php vendor/bin/doctrine-migrations migrations:migrate');\"",
         "migration:prod": "php -r \"putenv('APP_ENV=production'); passthru('php vendor/bin/doctrine-migrations migrations:migrate');\"",
