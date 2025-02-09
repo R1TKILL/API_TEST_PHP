@@ -13,7 +13,7 @@ try {
     $app = AppFactory::create();
     $app->addBodyParsingMiddleware();
     $app->addRoutingMiddleware();
-    $app->addErrorMiddleware(true, true, true); // obs: In production must be (false, true, true)
+    $app->addErrorMiddleware((bool) $dict_ENV['ERROR_DETAILS'], true, true);
 
     // * Add the middlewares in API.
     $middlewares = require __DIR__ . '/../../app/Middlewares/middlewares.php';
