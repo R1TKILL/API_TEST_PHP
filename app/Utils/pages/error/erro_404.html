@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>500 - Erro Interno do Servidor</title>
+    <title>404 - Página Não Encontrada</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Roboto', sans-serif;
-            background: linear-gradient(135deg, #7298e9, #f3e5d1);
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #ff7eb3, #ff758c);
             color: #fff;
             display: flex;
             justify-content: center;
@@ -19,82 +19,74 @@
             height: 100vh;
             text-align: center;
         }
-
         .container {
-            max-width: 700px;
+            max-width: 600px;
             padding: 30px;
             background: rgba(0, 0, 0, 0.4);
             border-radius: 15px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-            animation: fadeIn 1s ease-out;
+            animation: slideIn 1s ease-out;
         }
-
         .icon {
             font-size: 6rem;
             margin-bottom: 20px;
-            color: #ffeb3b;
-            animation: pulse 2s infinite;
+            animation: bounce 2s infinite;
         }
-
         h1 {
             font-size: 4em;
             margin: 0;
             letter-spacing: 2px;
             color: #ffeb3b;
         }
-
         p {
             font-size: 1.2em;
             margin: 20px 0;
             color: #f2f2f2;
         }
-
         a {
             text-decoration: none;
             color: #333;
             font-weight: bold;
-            padding: 12px 25px;
+            padding: 10px 18px;
             border: none;
             background: #ffeb3b;
             border-radius: 5px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             display: inline-block;
         }
-
         a:hover {
             transform: translateY(-3px);
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
         }
-
-        @keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-                text-shadow: 0 0 10px #ffeb3b, 0 0 20px #ffeb3b, 0 0 30px #ffeb3b;
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
             }
-            50% {
-                transform: scale(1.1);
-                text-shadow: 0 0 20px #fff, 0 0 30px #ffeb3b, 0 0 40px #ffeb3b;
+            40% {
+                transform: translateY(-15px);
+            }
+            60% {
+                transform: translateY(-8px);
             }
         }
-
-        @keyframes fadeIn {
+        @keyframes slideIn {
             from {
                 opacity: 0;
-                transform: scale(0.9);
+                transform: translateY(30px);
             }
             to {
                 opacity: 1;
-                transform: scale(1);
+                transform: translateY(0);
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="icon">💥</div>
-        <h1>500</h1>
-        <p>Algo deu errado no nosso servidor. Não se preocupe, estamos trabalhando para resolver isso!</p>
-        <p>Enquanto isso, você pode voltar para a <a href="/">página inicial</a> ou tentar novamente mais tarde.</p>
+        <div class="icon">🚀</div>
+        <h1>404</h1>
+        <p>Oops! A página que você está procurando desapareceu no espaço.</p>
+        <p>Talvez queira voltar para a <a href="/">página inicial</a>.</p>
     </div>
 </body>
 </html>

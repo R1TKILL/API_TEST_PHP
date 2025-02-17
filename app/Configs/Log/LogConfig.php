@@ -44,7 +44,7 @@ class LogConfig {
                 default => $this->logger->error($detailedMessage),
             };
     
-            $body_email = file_get_contents(__DIR__ . '/../../../app/Utils/email_pages/error_notify.html');
+            $body_email = file_get_contents(__DIR__ . '/../../../app/Utils/pages/email/error_notify.html');
             $body_email = str_replace(
                 // * fields, keys, insert_file
                 ['{{mensagem_erro}}', '{{linha_erro}}', '{{data_hora}}'], 
