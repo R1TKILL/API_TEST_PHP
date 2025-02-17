@@ -37,7 +37,7 @@ jobs:
     - name: Access the folder of projects and Cloning the repository of project
       run: | 
         cd /var/www/html
-        sudo git clone https://github.com/R1TKILL/API_TEST_PHP.git
+        git pull origin main
 
     - name: Access the folder of API and Config the project
       run: | 
