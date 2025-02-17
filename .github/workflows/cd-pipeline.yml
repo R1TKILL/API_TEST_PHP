@@ -34,27 +34,28 @@ jobs:
         key: ${{ secrets.AWS_SSH_PRIVATE_KEY }}
         port: 22
 
-    - name: Access the folder of projects and Cloning the repository of project
+    - name: exibir valores
       run: | 
-        cd /var/www/html/API_TEST_PHP
-        git pull origin main
+        $values = [
+          ${{ secrets.AWS_IAM_ACCESS_KEY_ID }}, ${{ secrets.AWS_IAM_SECRET_ACCESS_KEY }},
+          ${{ secrets.AWS_REGION }}, ${{ secrets.AWS_EC2_HOST }},
+          ${{ secrets.AWS_UBUNTU_USER }}, ${{ secrets.AWS_SSH_PRIVATE_KEY }},
+        ];
 
-    - name: Access the folder of API and Config the project
-      run: | 
-        cd /var/www/html/API_TEST_PHP
-        composer run base:prod
-        composer run migration:prod
+        var_dump($values); 
 
-    - name: Restart the NGINX and PHP-FPM
-      run: |
-        sudo systemctl restart php8.2-fpm
-        sudo systemctl restart nginx
-
-    # - name: Check the folders
+    # - name: Access the folder of projects and Cloning the repository of project
     #   run: | 
-    #     cd /var/www/html
-    #     ls
-    #     ls -a
-    #     ls -lha
-    #     ip a
+    #     cd /var/www/html/API_TEST_PHP
+    #     git pull origin main
 
+    # - name: Access the folder of API and Config the project
+    #   run: | 
+    #     cd /var/www/html/API_TEST_PHP
+    #     composer run base:prod
+    #     composer run migration:prod
+
+    # - name: Restart the NGINX and PHP-FPM
+    #   run: |
+    #     sudo systemctl restart php8.2-fpm
+    #     sudo systemctl restart nginx
