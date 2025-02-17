@@ -101,14 +101,14 @@ class Pessoa {
 
     // * Lifecycle event for automatically updates the updatedAt field when creating a new record.
     #[ORM\PrePersist]
-    protected function onPrePersist(): void
+    public function onPrePersist(): void
     {
         $this->updated_at = new DateTime('now');
     }
 
     // * Lifecycle event for automatically updates the updatedAt field when modifying an existing record.
     #[ORM\PreUpdate]
-    protected function onPreUpdate(): void
+    public function onPreUpdate(): void
     {
         $this->updated_at = new DateTime('now');
     }
