@@ -33,19 +33,24 @@ jobs:
         username: ${{ secrets.AWS_UBUNTU_USER }}
         key: ${{ secrets.AWS_SSH_PRIVATE_KEY }}
         port: 22
+        script: |
+          php -v
+          nginx -v
+          systemctl status php8.2-fpm
+          systemctl status nginx
 
-    - name: Access the folder of projects and Cloning the repository of project
-      run: | 
-        cd /var/www/html/API_TEST_PHP
-        git pull origin main
+    # - name: Access the folder of projects and Cloning the repository of project
+    #   run: | 
+    #     cd /var/www/html/API_TEST_PHP
+    #     git pull origin main
 
-    - name: Access the folder of API and Config the project
-      run: | 
-        cd /var/www/html/API_TEST_PHP
-        composer run base:prod
-        composer run migration:prod
+    # - name: Access the folder of API and Config the project
+    #   run: | 
+    #     cd /var/www/html/API_TEST_PHP
+    #     composer run base:prod
+    #     composer run migration:prod
 
-    - name: Restart the NGINX and PHP-FPM
-      run: |
-        sudo systemctl restart php8.2-fpm
-        sudo systemctl restart nginx
+    # - name: Restart the NGINX and PHP-FPM
+    #   run: |
+    #     sudo systemctl restart php8.2-fpm
+    #     sudo systemctl restart nginx
