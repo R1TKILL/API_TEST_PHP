@@ -46,15 +46,14 @@
         }
     },
     "scripts": {
-        "base": ["rm -rf vendor/", "composer install"],
-        "base:prod": ["sudo composer install --prefer-dist --no-progress --no-suggest --no-dev --optimize-autoloader"],
-        "rebase:prod": ["rm -rf vendor/", "composer install --prefer-dist --no-progress --no-suggest --no-dev --optimize-autoloader"],
-        
         "update:autoload": "composer dump-autoload --optimize",
+
+        "base": ["rm -rf vendor/", "composer install"],
+        "base:prod": ["rm -rf vendor/", "comp oser install --prefer-dist --no-progress --no-suggest --no-dev --optimize-autoloader"],
 
         "migration:test": "php -r \"putenv('APP_ENV=test'); passthru('php vendor/bin/doctrine-migrations migrations:migrate');\"",
         "migration:dev": "php -r \"putenv('APP_ENV=development'); passthru('php vendor/bin/doctrine-migrations migrations:migrate');\"",
-        "migration:prod": "php -r \"putenv('APP_ENV=production'); passthru('php vendor/bin/doctrine-migrations migrations:migrate');\"",
+        "migration:prod": "php -r \"putenv('APP_ENV=production'); passthru('php vendor/bin/doctrine-migrations migrations:migrate --no-interaction');\"",
         
         "test:all": "vendor/bin/phpunit",
         "test:unit": "echo \"No specific command for unit test\"",
