@@ -34,10 +34,10 @@ jobs:
         key: ${{ secrets.AWS_SSH_PRIVATE_KEY }}
         port: 22
         script: |
-          php -v
-          nginx -v
-          systemctl status php8.2-fpm
-          systemctl status nginx
+          sudo chown -R www-data:www-data /var/www/html/API_TEST_PHP
+          sudo chmod -R 775 /var/www/html/API_TEST_PHP
+          sudo systemctl restart php8.2-fpm
+          sudo systemctl restart nginx
 
     # - name: Access the folder of projects and Cloning the repository of project
     #   run: | 
