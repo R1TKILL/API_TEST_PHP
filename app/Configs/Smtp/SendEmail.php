@@ -3,8 +3,6 @@
 declare(strict_types=1);
 namespace App\SMTP;
 
-require __DIR__ . '/../../../app/Configs/Env/env.php';
-
 use PHPMailer\PHPMailer\Exception as PHPMailerException;
 use PHPMailer\PHPMailer\PHPMailer;
 use App\configLogs\LogConfig;

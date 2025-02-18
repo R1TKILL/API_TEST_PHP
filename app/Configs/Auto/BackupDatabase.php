@@ -3,8 +3,6 @@
 declare(strict_types=1);
 namespace App\Auto;
 
-require __DIR__ . '/../../../app/Configs/Env/env.php';
-
 use App\configLogs\LogConfig;
 use Exception;
 

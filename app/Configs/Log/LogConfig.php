@@ -3,8 +3,6 @@
 declare(strict_types=1);
 namespace App\configLogs;
 
-require __DIR__ . '/../../../app/Configs/Env/env.php';
-
 use Monolog\Logger;
 use Monolog\Handler\RotatingFileHandler;
 use App\SMTP\SendEmail;
