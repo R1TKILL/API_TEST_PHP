@@ -1,5 +1,4 @@
-# * Script to update code on AWS EC2 ubuntu, executed only if CI has success status, script of continuous deploy.
-
+# * Script to update code on AWS EC2 ubuntu, script for continuous deploy.
 name: CD Pipeline
 
 # * Runs only after the CI script finishes with success status.
@@ -26,7 +25,7 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_IAM_SECRET_ACCESS_KEY }}
         aws-region: ${{ secrets.AWS_REGION }}
 
-    - name: Access with SSH to EC2 Instance
+    - name: Access with SSH to EC2 Instance and execute the commands
       uses: appleboy/ssh-action@v0.1.5
       with:
         host: ${{ secrets.AWS_EC2_HOST }}
@@ -34,21 +33,19 @@ jobs:
         key: ${{ secrets.AWS_SSH_PRIVATE_KEY }}
         port: 22
         script: |
+
           cd /var/www/html/API_TEST_PHP
-          ls -a
+          git reset --hard
+          git pull origin 
+          
+          composer run base:prod
+          composer run migration:prod
+          composer run update:autoload
 
-    # - name: Access the folder of projects and Cloning the repository of project
-    #   run: | 
-    #     cd /var/www/html/API_TEST_PHP
-    #     git pull origin main
+          sudo chown -R www-data:www-data /var/www/html/API_TEST_PHP
+          sudo chmod -R 755 /var/www/html/API_TEST_PHP
 
-    # - name: Access the folder of API and Config the project
-    #   run: | 
-    #     cd /var/www/html/API_TEST_PHP
-    #     composer run base:prod
-    #     composer run migration:prod
+          sudo systemctl restart php8.2-fpm
+          sudo systemctl restart nginx
 
-    # - name: Restart the NGINX and PHP-FPM
-    #   run: |
-    #     sudo systemctl restart php8.2-fpm
-    #     sudo systemctl restart nginx
+          echo "🚀 Deploy concluído com sucesso!"
