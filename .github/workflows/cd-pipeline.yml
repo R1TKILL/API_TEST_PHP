@@ -35,6 +35,8 @@ jobs:
         script: |
 
           cd /var/www/html/API_TEST_PHP
+          
+          git config --global --add safe.directory /var/www/html/API_TEST_PHP
           git reset --hard
           git pull origin 
           
