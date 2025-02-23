@@ -36,7 +36,7 @@ jobs:
 
           # * Search path of project and adjusting the permissions of user:
           cd /var/www/html/API_TEST_PHP
-          sudo chown -R $USER:$USER .
+          sudo chown -R $USER:$USER /var/www/html/API_TEST_PHP/*
           
           # * Pull the new code:
           git reset --hard
@@ -71,14 +71,14 @@ jobs:
             echo "SMTP_PORT=${{ secrets.SMTP_PORT }}" >> .env
           
           # * Update the code:
-          # composer run base:prod
-          # composer run migration:prod
-          # composer run update:autoload
+          composer run base:prod
+          composer run migration:prod
+          composer run update:autoload
 
           # * Restart the services of server:
           sudo systemctl restart php8.2-fpm
           sudo systemctl restart nginx
 
           # * Restore the permissions for web server and finishing:
-          sudo chown -R www-data:www-data .
+          # // sudo chown -R www-data:www-data /var/www/html/API_TEST_PHP/*
           echo "🚀 Deploy completed with success!"
