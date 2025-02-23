@@ -39,6 +39,7 @@ jobs:
           sudo chown -R $USER:$USER .
           
           # Update the code:
+          git clean -fd
           git reset --hard
           git pull origin main
           
