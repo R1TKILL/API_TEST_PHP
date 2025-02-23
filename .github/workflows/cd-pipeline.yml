@@ -34,25 +34,51 @@ jobs:
         port: 22
         script: |
 
-          # Search path of project and adjusting the permissions of user:
-          cd /var/www/html/API_TEST_PHP
+          # * Search path of project and adjusting the permissions of user:
+          cd /var/www/html/API_PROD_PHP
           sudo chown -R $USER:$USER .
           
-          # Update the code:
-          git clean -fd
+          # * Pull the new code:
           git reset --hard
           git pull origin main
+
+          # * Populating the .env file:
+
+            # * Environments for ambient of production:
+            echo "PROD_ORIGIN_ADDRESS=${{ secrets.PROD_ORIGIN_ADDRESS }}" >> .env
+            echo "PROD_HOST=${{ secrets.PROD_HOST }}" >> .env
+            echo "PROD_PORT=${{ secrets.PROD_PORT }}" >> .env
+            echo "PROD_DEBUG_MODE=${{ secrets.PROD_DEBUG_MODE }}" >> .env
+            echo "PROD_ERROR_DETAILS=${{ secrets.PROD_ERROR_DETAILS }}" >> .env
+            # * Environments for database production:
+            echo "PROD_DB_DIALECT=${{ secrets.PROD_DB_DIALECT }}" >> .env
+            echo "PROD_DB_USER=${{ secrets.PROD_DB_USER }}" >> .env
+            echo "PROD_DB_PASS=${{ secrets.PROD_DB_PASS }}" >> .env
+            echo "PROD_DB_NAME=${{ secrets.PROD_DB_NAME }}" >> .env
+            echo "PROD_DB_HOST=${{ secrets.PROD_DB_HOST }}" >> .env
+            echo "PROD_DB_PORT=${{ secrets.PROD_DB_PORT }}" >> .env
+            echo "PROD_DB_SSLMODE=${{ secrets.PROD_DB_SSLMODE }}" >> .env
+            echo "PROD_DB_SSLROOTCERT=${{ secrets.PROD_DB_SSLROOTCERT }}" >> .env
+            echo "PROD_DB_CHARSET=${{ secrets.PROD_DB_CHARSET }}" >> .env
+            echo "PROD_DB_DEVMODE=${{ secrets.PROD_DB_DEVMODE }}" >> .env
+            # * Others commons environments for all ambients:
+            echo "URL_API_PREFIX=${{ secrets.URL_API_PREFIX }}" >> .env
+            # * Keys for SMTP:
+            echo "SMTP_HOST=${{ secrets.SMTP_HOST }}" >> .env
+            echo "SMTP_DEV_TEAM=${{ secrets.SMTP_DEV_TEAM }}" >> .env
+            echo "SMTP_SENDER=${{ secrets.SMTP_SENDER }}" >> .env
+            echo "SMTP_PASS=${{ secrets.SMTP_PASS }}" >> .env
+            echo "SMTP_PORT=${{ secrets.SMTP_PORT }}" >> .env
           
+          # * Update the code:
           # composer run base:prod
           # composer run migration:prod
           # composer run update:autoload
 
-          # Restart the services of server:
-          # sudo systemctl restart php8.2-fpm
-          # sudo systemctl restart nginx
+          # * Restart the services of server:
+          sudo systemctl restart php8.2-fpm
+          sudo systemctl restart nginx
 
-          # Restore the permissions for web server:
+          # * Restore the permissions for web server and finishing:
           sudo chown -R www-data:www-data .
-          # sudo chmod -R 755 /var/www/html/API_TEST_PHP
-
-          echo "🚀 Deploy concluído com sucesso!"
+          echo "🚀 Deploy completed with success!"
