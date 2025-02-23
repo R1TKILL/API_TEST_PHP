@@ -46,10 +46,10 @@
         }
     },
     "scripts": {
-        "update:autoload": "composer dump-autoload --optimize",
+        "update:autoload": "composer dump-autoload -o",
 
         "base": ["rm -rf vendor/", "composer install"],
-        "base:prod": ["rm -rf vendor/", "composer install --prefer-dist --no-progress --no-suggest --no-dev --optimize-autoloader"],
+        "base:prod": ["rm -rf vendor/", "composer install --prefer-dist --no-progress --no-dev --optimize-autoloader"],
 
         "migration:test": "php -r \"putenv('APP_ENV=test'); passthru('php vendor/bin/doctrine-migrations migrations:migrate');\"",
         "migration:dev": "php -r \"putenv('APP_ENV=development'); passthru('php vendor/bin/doctrine-migrations migrations:migrate');\"",
