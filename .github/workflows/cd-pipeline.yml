@@ -37,16 +37,16 @@ jobs:
           cd /var/www/html/API_TEST_PHP
           
           git reset --hard
-          git pull origin 
+          git pull origin main
           
-          composer run base:prod
-          composer run migration:prod
-          composer run update:autoload
+          # composer run base:prod
+          # composer run migration:prod
+          # composer run update:autoload
 
-          sudo chown -R www-data:www-data /var/www/html/API_TEST_PHP
-          sudo chmod -R 755 /var/www/html/API_TEST_PHP
+          # sudo chown -R www-data:www-data /var/www/html/API_TEST_PHP
+          # sudo chmod -R 755 /var/www/html/API_TEST_PHP
 
-          sudo systemctl restart php8.2-fpm
-          sudo systemctl restart nginx
+          # sudo systemctl restart php8.2-fpm
+          # sudo systemctl restart nginx
 
           echo "🚀 Deploy concluído com sucesso!"
