@@ -34,9 +34,11 @@ jobs:
         port: 22
         script: |
 
-          echo "Usuário logado: $USER"
+          # Search path of project and adjusting the permissions of user:
           cd /var/www/html/API_TEST_PHP
+          sudo chown -R $USER:$USER .
           
+          # Update the code:
           git reset --hard
           git pull origin main
           
@@ -44,10 +46,12 @@ jobs:
           # composer run migration:prod
           # composer run update:autoload
 
-          # sudo chown -R www-data:www-data /var/www/html/API_TEST_PHP
-          # sudo chmod -R 755 /var/www/html/API_TEST_PHP
-
+          # Restart the services of server:
           # sudo systemctl restart php8.2-fpm
           # sudo systemctl restart nginx
+
+          # Restore the permissions for web server:
+          sudo chown -R www-data:www-data .
+          # sudo chmod -R 755 /var/www/html/API_TEST_PHP
 
           echo "🚀 Deploy concluído com sucesso!"
